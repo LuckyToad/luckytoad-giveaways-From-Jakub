@@ -1,6 +1,5 @@
 <script lang="ts">
-	// import { transition } from '$lib/stores/state';
-	import { state } from '$lib/stores/stateMachine';
+	import { state } from '$lib/stores/fsm';
 	import { connected } from 'svelte-ethers-store';
 
 	$: if ($connected) state.next();

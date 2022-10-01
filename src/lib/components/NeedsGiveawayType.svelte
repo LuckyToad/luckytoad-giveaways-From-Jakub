@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { state } from '$lib/stores/stateMachine';
+	import { state } from '$lib/stores/fsm';
 	import { giveaway } from '$lib/stores/giveaway';
 
 	const handleNext = (type: string) => {

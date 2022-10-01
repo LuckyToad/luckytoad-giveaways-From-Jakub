@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { state } from '$lib/stores/stateMachine';
+	import { state } from '$lib/stores/fsm';
 	import { giveaway } from '$lib/stores/giveaway';
+
 	import { validateAddress } from '$lib/web3';
-	import { json } from '@sveltejs/kit';
 
 	let projectContractAddress = JSON.parse(sessionStorage.giveaway).project_contract_address;
 	let error: boolean;
@@ -19,8 +19,6 @@
 
 		return error ? (valid = !valid) : valid;
 	};
-
-	$: console.log(sessionStorage.getItem('project_contract_address'));
 </script>
 
 <div class="flex flex-col gap-2">

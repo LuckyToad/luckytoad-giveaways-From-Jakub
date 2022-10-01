@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { state } from '$lib/stores/stateMachine';
+	import { state } from '$lib/stores/fsm';
 	import { giveaway } from '$lib/stores/giveaway';
 
 	let giveawayAmount = JSON.parse(sessionStorage.giveaway).giveaway_amount;
