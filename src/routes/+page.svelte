@@ -1,5 +1,5 @@
 <script type="ts">
-	import { state } from '$lib/stores/stateMachine';
+	import { state } from '$lib/stores/fsm';
 	import Start from '$lib/components/Start.svelte';
 	import NeedsConnect from '$lib/components/NeedsConnect.svelte';
 	import NeedsGiveawayType from '$lib/components/NeedsGiveawayType.svelte';
