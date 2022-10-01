@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import { get } from 'svelte/store';
 
 interface Giveaway {
 	giveaway_type: string;
@@ -14,6 +13,9 @@ const InitialState: Giveaway = {
 	giveaway_amount: 0
 };
 
-export const giveaway = writable(InitialState);
+const sessionState = browser && sessionStorage.getItem('giveaway');
+export const giveaway = writable(sessionState ? JSON.parse(sessionState) : InitialState);
 
-giveaway.subscribe((state) => browser && sessionStorage.setItem('giveaway', JSON.stringify(state)));
+giveaway.subscribe((state) => {
+	browser && sessionStorage.setItem('giveaway', JSON.stringify(state));
+});
