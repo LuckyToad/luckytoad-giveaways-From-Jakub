@@ -25,18 +25,14 @@ export const state = fsm(sessionState ? sessionState : 'start', {
 	},
 	'needs-contract-address': {
 		back: 'needs-giveaway-type',
-		next(validatorFunction: () => boolean) {
-			return validatorFunction() ? 'needs-amount' : 'needs-contract-address';
-		}
+		next: 'needs-amount'
 	},
 	'needs-amount': {
 		back() {
 			const currentState = get(giveaway);
 			return currentState.giveaway_type === 'ethereum' ? 'needs-giveaway-type' : 'needs-contract-address';
 		},
-		next(validatorFunction: () => boolean) {
-			return validatorFunction() ? 'needs-spreadsheet' : 'needs-amount';
-		}
+		next: 'needs-spreadsheet'
 	},
 	'needs-spreadsheet': {
 		back: 'needs-amount',
