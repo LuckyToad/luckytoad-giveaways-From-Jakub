@@ -8,6 +8,7 @@
 	import NeedsSpreadsheet from '$lib/components/NeedsSpreadsheet.svelte';
 </script>
 
+<div />
 <main class="h-screen bg-[#1B1F20]">
 	<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-[calc(100vh-56px)] flex justify-center items-center">
 		{#if $state == 'start'}

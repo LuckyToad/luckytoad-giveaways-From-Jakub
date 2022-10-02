@@ -3,6 +3,7 @@ import { connected } from 'svelte-ethers-store';
 import { giveaway } from './giveaway';
 import { get } from 'svelte/store';
 import { browser } from '$app/environment';
+import { json } from '@sveltejs/kit';
 
 const sessionState = browser && sessionStorage.getItem('state');
 
@@ -40,9 +41,7 @@ export const state = fsm(sessionState ? sessionState : 'start', {
 	'needs-spreadsheet': {
 		back: 'needs-amount',
 		next: () => '' // processFile()
-	},
-
-	final: {}
+	}
 });
 
 state.subscribe((state) => {

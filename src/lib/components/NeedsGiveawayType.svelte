@@ -2,6 +2,12 @@
 	import { state } from '$lib/stores/fsm';
 	import { giveaway } from '$lib/stores/giveaway';
 
+	const handleBack = () => {
+		$giveaway.giveaway_type = '';
+
+		state.back();
+	};
+
 	const handleNext = (type: string) => {
 		$giveaway.giveaway_type = type;
 
@@ -18,6 +24,6 @@
 		</div>
 	</div>
 	<div>
-		<button on:click={state.back}>Back</button>
+		<button on:click={() => handleBack()}>Back</button>
 	</div>
 </div>

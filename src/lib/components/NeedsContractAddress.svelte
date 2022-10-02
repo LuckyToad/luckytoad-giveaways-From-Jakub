@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { state } from '$lib/stores/fsm';
 	import { giveaway } from '$lib/stores/giveaway';
-
-	import { validateAddress } from '$lib/web3';
+	import { validateAddress, attachContract } from '$lib/web3';
 
 	let projectContractAddress = JSON.parse(sessionStorage.giveaway).project_contract_address;
 	let error: boolean;
@@ -14,10 +13,23 @@
 		if (!projectContractAddress) error = true;
 		if (!validateAddress(projectContractAddress)) error = true;
 
-		// if contract is valid, update giveaway store
-		if (!error) $giveaway.project_contract_address = projectContractAddress;
+		// if contract is valid, update giveaway store and contract
+		if (!error) {
+			$giveaway.project_contract_address = projectContractAddress;
+			attachContract('PROJECT', projectContractAddress);
+		}
 
 		return error ? (valid = !valid) : valid;
+	};
+
+	const handleBack = () => {
+		$giveaway.project_contract_address = '';
+
+		state.back();
+	};
+
+	const handleNext = () => {
+		state.next(isAddressValid);
 	};
 </script>
 
@@ -33,7 +45,7 @@
 	</div>
 
 	<div class="flex justify-between text-white">
-		<button on:click={state.back}>Back</button>
-		<button on:click={() => state.next(isAddressValid)}>Continue</button>
+		<button on:click={() => handleBack()}>Back</button>
+		<button on:click={() => handleNext()}>Continue</button>
 	</div>
 </div>
