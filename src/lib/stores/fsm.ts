@@ -4,20 +4,20 @@ import { giveaway } from './giveaway';
 import { get } from 'svelte/store';
 import { browser } from '$app/environment';
 
-const sessionState = browser && sessionStorage.getItem('state');
+let isConnected: boolean;
+connected.subscribe((val) => (isConnected = val));
 
-export const state = fsm(sessionState ? sessionState : 'start', {
-	start: {
-		next: 'needs-connect'
+const state = fsm('uninitialized', {
+	uninitialized: {
+		init(state) {
+			// check if received state is valid state and transition to it (or default)
+			return ['start', 'needs-giveaway-type', 'needs-contract-address', 'needs-amount', 'needs-spreadsheet'].includes(state) ? state : 'start';
+		}
 	},
-	'needs-connect': {
-		back: 'start',
+	start: {
 		next: 'needs-giveaway-type'
 	},
 	'needs-giveaway-type': {
-		back() {
-			return get(connected) ? 'start' : 'needs-connect';
-		},
 		selectType(type: string) {
 			return type === 'ethereum' ? 'needs-amount' : 'needs-contract-address';
 		}
@@ -39,7 +39,18 @@ export const state = fsm(sessionState ? sessionState : 'start', {
 	}
 });
 
-state.subscribe((state) => {
-	giveaway;
-	browser && sessionStorage.setItem('state', state);
+state.init(browser && sessionStorage.getItem('state'));
+state.subscribe((state) => browser && sessionStorage.setItem('state', state));
+
+export default new Proxy(state, {
+	get(target, property) {
+		if (property === 'subscribe') return Reflect.get(target, property);
+		return (...args) => {
+			if (isConnected) {
+				return Reflect.get(target, property)(...args);
+			} else {
+				return Reflect.get(target, 'bogusActionReturnsCurrentState')();
+			}
+		};
+	}
 });

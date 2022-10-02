@@ -1,12 +1,6 @@
 <script lang="ts">
-	import { state } from '$lib/stores/fsm';
+	import state from '$lib/stores/fsm';
 	import { giveaway } from '$lib/stores/giveaway';
-
-	const handleBack = () => {
-		$giveaway.giveaway_type = '';
-
-		state.back();
-	};
 
 	const handleNext = (type: string) => {
 		$giveaway.giveaway_type = type;
@@ -22,8 +16,5 @@
 			<button on:click={() => handleNext('native-token')} class="text-white border-2 rounded-md px-2 py-1 w-32 hover:bg-neutral-900">Native Token</button>
 			<button on:click={() => handleNext('ethereum')} class="text-white border-2 rounded-md px-2 py-1 w-32 hover:bg-neutral-900">Ethereum</button>
 		</div>
-	</div>
-	<div>
-		<button on:click={() => handleBack()}>Back</button>
 	</div>
 </div>

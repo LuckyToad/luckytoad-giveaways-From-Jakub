@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { state } from '$lib/stores/fsm';
+	import state from '$lib/stores/fsm';
 	import { processFile } from '$lib/util';
 
 	let files: any;

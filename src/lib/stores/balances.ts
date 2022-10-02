@@ -1,6 +1,6 @@
 import { derived } from 'svelte/store';
 import { ethers } from 'ethers';
-import { provider, signer, signerAddress, contracts, defaultEvmStores } from 'svelte-ethers-store';
+import { provider, signer, signerAddress, contracts } from 'svelte-ethers-store';
 
 export const ethBalance = derived([signer, provider], ([$signer, $provider], set) => {
 	if (!$signer || !$provider) return set(null);
@@ -16,7 +16,7 @@ export const ethBalance = derived([signer, provider], ([$signer, $provider], set
 });
 
 export const projectBalance = derived([signer, provider, contracts, signerAddress], ([$signer, $provider, $contracts, $signerAddress], set) => {
-	if (!$signer || $provider || !$signerAddress || !$contracts.PROJECT) return set(null);
+	if (!provider || !$signer || !$provider || !$signerAddress || !$contracts.PROJECT) return set(null);
 
 	provider.subscribe(async (provider) => {
 		provider.on('block', async () => {
