@@ -22,9 +22,9 @@ let onboard = Onboard({
 		}
 	],
 	appMetadata: {
-		name: 'temp-name',
-		icon: 'temp-icon',
-		logo: 'temp-logo',
+		name: 'Lucky Toad',
+		icon: 'logo-toad-no-text-transparent-bg.png',
+		logo: 'logo-text-transparent-bg.png',
 		description: 'temp-description',
 		recommendedInjectedWallets: [
 			{ name: 'MetaMask', url: 'https://metamask.io' },
