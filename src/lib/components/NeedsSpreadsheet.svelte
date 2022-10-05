@@ -5,6 +5,20 @@
 	import { processFile } from '$lib/util';
 
 	let files, input;
+	let error: boolean;
+
+	const isSpreadsheetValid = (): boolean => {
+		error = false;
+		let valid = true;
+
+		// if (!amount) error = true;
+		// if (amount < 0) error = true;
+		// if (typeof amount !== 'number') error = true;
+		// if ($giveaway.giveaway_type === 'ethereum' && amount > $ethBalance) error = true;
+		// if ($giveaway.giveaway_type === 'native-token' && amount > $projectBalance) error = true;
+
+		return error ? (valid = !valid) : valid;
+	};
 
 	const clearInput = () => {
 		input.value = '';
