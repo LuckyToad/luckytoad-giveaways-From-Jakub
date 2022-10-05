@@ -40,13 +40,13 @@
 
 	<input bind:value={amount} on:input={isAmountValid} type="number" class="input-field" placeholder="Ex: 0.2 ETH" />
 
-	<span class="text-brand-green-dark text-sm w-max">
+	<p class="text-brand-green-dark text-sm text-center">
 		{#if $giveaway.giveaway_type === 'ethereum' && $ethBalance}
 			max: {$ethBalance}
 		{:else if $contracts.PROJECT && $projectBalance}
 			max: {$projectBalance}
 		{/if}
-	</span>
+	</p>
 
 	{#if error}
 		<p class="invalid-error">Please enter a valid amount.</p>

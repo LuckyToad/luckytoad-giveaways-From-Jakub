@@ -33,7 +33,7 @@
 	</label>
 
 	{#if input && files?.[0]}
-		<div class="flex justify-between rounded-md border border-brand-lemon-dark w-1/2 overflow-hidden">
+		<div class="flex justify-between rounded-md border border-brand-lemon-dark min-w-max w-1/2 overflow-hidden">
 			<p class="text-brand-green-dark font-bold text-xl px-4 py-3">{files[0].name}</p>
 			<button class="bg-brand-red flex items-center justify-center" on:click={clearInput}>
 				<iconify-icon icon="akar-icons:cross" height={'20px'} class="text-brand-white p-3" />
