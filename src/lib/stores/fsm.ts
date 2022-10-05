@@ -3,26 +3,10 @@ import { connected } from 'svelte-ethers-store';
 import { giveaway } from './giveaway';
 import { get } from 'svelte/store';
 import { browser } from '$app/environment';
+import { findWinner } from '$lib/util';
 
 let isConnected: boolean;
 connected.subscribe((val) => (isConnected = val));
-
-const findWinner = async () => {
-	const giveawayStore = get(giveaway);
-	const participants = giveawayStore.participants;
-	const random = Math.floor(Math.random() * giveawayStore.participants.length);
-	const winner = participants[random];
-
-	giveaway.update((giveaway) => ({
-		...giveaway,
-		winner,
-		round: giveaway.round + 1
-	}));
-
-	console.log(get(giveaway));
-
-	return winner;
-};
 
 const state = fsm('uninitialized', {
 	uninitialized: {

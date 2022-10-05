@@ -25,3 +25,20 @@ export const processFile = (files) => {
 		});
 	});
 };
+
+export const findWinner = async () => {
+	const giveawayStore = get(giveaway);
+	const participants = giveawayStore.participants;
+	const random = Math.floor(Math.random() * giveawayStore.participants.length);
+	const winner = participants[random];
+
+	giveaway.update((giveaway) => ({
+		...giveaway,
+		winner,
+		round: giveaway.round + 1
+	}));
+
+	console.log(get(giveaway));
+
+	return winner;
+};
