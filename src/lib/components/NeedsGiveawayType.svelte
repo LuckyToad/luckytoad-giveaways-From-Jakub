@@ -9,12 +9,9 @@
 	};
 </script>
 
-<div class="flex flex-col gap-2 text-white">
-	<div class="flex flex-col gap-2">
-		<p class="block mb-2 text-sm font-medium text-white">Please select your giveaway type.</p>
-		<div>
-			<button on:click={() => handleNext('native-token')} class="text-white border-2 rounded-md px-2 py-1 w-32 hover:bg-neutral-900">Native Token</button>
-			<button on:click={() => handleNext('ethereum')} class="text-white border-2 rounded-md px-2 py-1 w-32 hover:bg-neutral-900">Ethereum</button>
-		</div>
-	</div>
+<div class="font-Inter flex flex-col gap-4 items-center">
+	<h1 class="header">What are you using for your giveaway?</h1>
+
+	<button on:click={() => handleNext('native-token')} class="btn">Native Token</button>
+	<button on:click={() => handleNext('ethereum')} class="btn">Ethereum</button>
 </div>

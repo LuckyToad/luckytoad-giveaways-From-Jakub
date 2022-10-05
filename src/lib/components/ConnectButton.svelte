@@ -8,33 +8,36 @@
 
 {#if $state !== 'start'}
 	{#if !$connected}
-		<button id="connectButton" class="flex items-center justify-center gap-1 md:hover:bg-neutral-900 p-2 md:px-2 md:py-1 sm:justify-end md:border rounded-md bg-transparent w-max" on:click={connect}>
-			<iconify-icon icon="mingcute:wallet-3-line" height="29px" class="text-white" />
+		<button id="connectButton" class="flex items-center justify-center gap-1 p-2 md:px-2 md:py-1 sm:justify-end md:border-2 md:border-brand-green-dark rounded-md bg-transparent w-max" on:click={connect}>
+			<iconify-icon icon="mingcute:wallet-3-line" height="29px" class="text-brand-green-dark" />
 
 			<div class="hidden md:flex md:flex-col md:items-start">
 				<span class="text-red-600 text-[10px] font-bold leading-3">Not Connected</span>
-				<span class="text-white leading-4">Connect Wallet</span>
+				<span class="text-brand-green-dark leading-4">Connect Wallet</span>
 			</div>
 		</button>
 	{:else}
 		<Menu class={'relative'}>
-			<MenuButton class={`flex items-center px-2 py-1 gap-1 md:hover:bg-neutral-900 sm:justify-end md:border rounded-md bg-transparent w-max`}>
+			<MenuButton class={`flex items-center px-2 py-1 gap-1 sm:justify-end md:border-2 md:border-brand-green-dark rounded-md bg-transparent w-max`}>
 				<div class="hidden md:flex md:flex-col md:items-start">
 					<span class="text-green-600 text-[10px] font-bold leading-3">Connected</span>
-					<span class="text-white leading-4">
+					<span class="text-brand-green-dark leading-4">
 						{$signerAddress.slice(0, 5)}…{$signerAddress.slice($signerAddress.length - 4, $signerAddress.length)}
 					</span>
 				</div>
 
-				<iconify-icon icon="heroicons:chevron-down-20-solid" height={'24px'} class="hidden md:flex text-white" />
+				<iconify-icon icon="heroicons:chevron-down-20-solid" height={'24px'} class="hidden md:flex text-brand-green-dark" />
 
-				<iconify-icon icon="mingcute:wallet-3-line" height="29px" class="flex md:hidden text-white" />
+				<iconify-icon icon="mingcute:wallet-3-line" height="29px" class="flex md:hidden text-brand-green-dark" />
 			</MenuButton>
 
 			<Transition enter="transition duration-100 ease-out" enterFrom="transform scale-95 opacity-0" enterTo="transform scale-100 opacity-100" leave="transition duration-75 ease-out" leaveFrom="transform scale-100 opacity-100" leaveTo="transform scale-95 opacity-0">
-				<MenuItems class={'absolute right-0 flex flex-col w-max mt-2 origin-top-right bg-neutral-900 divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'}>
+				<MenuItems class={'absolute right-0 flex flex-col w-max mt-2 origin-top-right divide-y divide-gray-100 rounded-md shadow-sm ring-1 ring-black ring-opacity-5 focus:outline-none'}>
 					<MenuItem let:active class={'p-1'}>
-						<button on:click={disconnect} class="text-white group flex rounded-md items-center w-full px-2 py-2 text-sm">Disconnect</button>
+						<button on:click={disconnect} class="text-red-600 group flex gap-1 rounded-md items-center w-full px-2 py-2 text-xs"
+							>Disconnect
+							<iconify-icon icon="akar-icons:cross" height={'12px'} class="hidden md:flex text-red-600" />
+						</button>
 					</MenuItem>
 				</MenuItems>
 			</Transition>

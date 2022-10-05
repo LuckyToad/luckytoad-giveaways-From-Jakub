@@ -1,21 +1,50 @@
 <script lang="ts">
+	import 'iconify-icon';
 	import state from '$lib/stores/fsm';
+	import { giveaway } from '$lib/stores/giveaway';
 	import { processFile } from '$lib/util';
 
-	let files: any;
+	let files, input;
+
+	const clearInput = () => {
+		input.value = '';
+		files = null;
+	};
+
+	const handleBack = () => {
+		$giveaway.participants = [];
+
+		state.back();
+	};
+
+	const handleNext = async () => {
+		$giveaway.participants = await processFile(files[0]);
+		state.next();
+	};
 </script>
 
-<div class="flex flex-col gap-2">
-	<div>
-		<p class="block mb-2 text-sm font-medium text-white">Please upload your spreadsheet with a list of participants and entries.</p>
+<div class="flex flex-col gap-4 items-center font-Inter">
+	<h1 class="header">Upload your spreadsheet</h1>
+	<h2 class="subheader">Spreadsheet MUST include a list of participant wallets and number of entries</h2>
 
-		<input bind:files class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-		<p class="mt-1 text-sm text-white">CSV, .sheet, .excel.</p>
-	</div>
+	<label class:hidden={files} class="btn cursor-pointer">
+		<input bind:files bind:this={input} class="hidden" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+		<p class="">Choose File</p>
+	</label>
 
-	<div class="flex justify-between text-white">
-		<button on:click={state.back}>Back</button>
-		<button on:click={async () => await processFile(files)} class="text-white">LOG RESULTS</button>
-		<!-- <button on:click={state.next}>Continue</button> -->
+	{#if input && files?.[0]}
+		<div class="flex justify-between rounded-md border border-brand-lemon-dark w-1/2 overflow-hidden">
+			<p class="text-brand-green-dark font-bold text-xl px-4 py-3">{files[0].name}</p>
+			<button class="bg-brand-red flex items-center justify-center" on:click={clearInput}>
+				<iconify-icon icon="akar-icons:cross" height={'20px'} class="text-brand-white p-3" />
+			</button>
+		</div>
+	{/if}
+
+	<p class="font-normal text-xs text-brand-green-dark">Accepted file types include: .CSV, .sheet, .excel</p>
+
+	<div class="flex justify-center gap-4">
+		<button on:click={handleBack} class="btn">Back</button>
+		<button on:click={handleNext} class="btn">Find winner</button>
 	</div>
 </div>

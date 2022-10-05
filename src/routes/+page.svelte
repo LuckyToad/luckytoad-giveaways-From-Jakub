@@ -5,8 +5,9 @@
 	import NeedsContractAddress from '$lib/components/NeedsContractAddress.svelte';
 	import NeedsAmount from '$lib/components/NeedsAmount.svelte';
 	import NeedsSpreadsheet from '$lib/components/NeedsSpreadsheet.svelte';
+	import FindingWinner from '$lib/components/FindingWinner.svelte';
+	import Winner from '$lib/components/Winner.svelte';
 	import { connectionError } from '$lib/stores/connectionError';
-	import DevPanel from '$lib/components/devPanel.svelte';
 	import { contracts } from 'svelte-ethers-store';
 	import { giveaway } from '$lib/stores/giveaway';
 	import { attachContract } from '$lib/web3';
@@ -15,13 +16,11 @@
 	if (!$contracts.PROJECT && $giveaway.project_contract_address) attachContract('PROJECT', $giveaway.project_contract_address);
 </script>
 
-<main class="h-screen bg-[#1B1F20]">
-	{#if $connectionError && $state !== 'start'}
-		<p class="text-lg font-bold text-red-700 text-center bg-white">PLEASE RECONNECT YOUR WALLET TO CONTINUE</p>
-	{/if}
-	<!-- <DevPanel /> -->
-
-	<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-[calc(100vh-56px)] flex justify-center items-center">
+{#if $connectionError && $state !== 'start'}
+	<p class="text-lg font-Inter font-bold text-red-700 text-center bg-brand-lemon-light">PLEASE RECONNECT YOUR WALLET TO CONTINUE</p>
+{/if}
+<main class="bg-brand-lemon-light flex grow">
+	<div class="h-full mx-auto max-w-7xl p-2 sm:p-6 lg:p-8 flex justify-center items-center">
 		{#if $state == 'start'}
 			<Start />
 		{:else if $state == 'needs-giveaway-type'}
@@ -32,6 +31,10 @@
 			<NeedsAmount />
 		{:else if $state == 'needs-spreadsheet'}
 			<NeedsSpreadsheet />
+		{:else if $state == 'finding-winner'}
+			<FindingWinner />
+		{:else if $state == 'winner'}
+			<Winner />
 		{/if}
 	</div>
 </main>

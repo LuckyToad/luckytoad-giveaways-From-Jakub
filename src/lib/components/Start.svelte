@@ -6,4 +6,7 @@
 	$: if ($connected) state.next();
 </script>
 
-<button on:click={connect} class="text-white border-2 rounded-md px-2 py-1 w-max hover:bg-neutral-900">Connect Wallet to get started</button>
+<div class="relative flex justify-center items-center font-Inter">
+	<img src="giveaway.svg" alt="giveaway" class="max-w-5xl w-full" />
+	<button on:click={connect} class="btn z-50 absolute">Connect Wallet</button>
+</div>

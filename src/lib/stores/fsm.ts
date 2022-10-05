@@ -7,11 +7,28 @@ import { browser } from '$app/environment';
 let isConnected: boolean;
 connected.subscribe((val) => (isConnected = val));
 
+const findWinner = async () => {
+	const giveawayStore = get(giveaway);
+	const participants = giveawayStore.participants;
+	const random = Math.floor(Math.random() * giveawayStore.participants.length);
+	const winner = participants[random];
+
+	console.log(typeof winner, winner);
+
+	giveaway.update((giveaway) => ({
+		...giveaway,
+		winner,
+		round: giveaway.round + 1
+	}));
+
+	return winner;
+};
+
 const state = fsm('uninitialized', {
 	uninitialized: {
 		init(state) {
 			// check if received state is valid state and transition to it (or default)
-			return ['start', 'needs-giveaway-type', 'needs-contract-address', 'needs-amount', 'needs-spreadsheet'].includes(state) ? state : 'start';
+			return ['start', 'needs-giveaway-type', 'needs-contract-address', 'needs-amount', 'needs-spreadsheet', 'finding-winner', 'winner'].includes(state) ? state : 'start';
 		}
 	},
 	start: {
@@ -35,7 +52,24 @@ const state = fsm('uninitialized', {
 	},
 	'needs-spreadsheet': {
 		back: 'needs-amount',
-		next: () => '' // processFile()
+		next: 'finding-winner'
+	},
+	'finding-winner': {
+		_enter({ event }) {
+			if (['next', 'reroll'].includes(event)) {
+				findWinner().then(this.next);
+			} else {
+				// if you need to transition to another state, do something like this – calling
+				// `debounce` puts it on the event loop so it's not sync w/in this function
+				this.oops.debounce();
+			}
+		},
+		next: 'winner',
+
+		oops: 'somewhereElse'
+	},
+	winner: {
+		reroll: 'finding-winner'
 	}
 });
 

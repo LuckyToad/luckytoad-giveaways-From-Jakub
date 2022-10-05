@@ -3,7 +3,6 @@
 	import { giveaway } from '$lib/stores/giveaway';
 	import { ethBalance, projectBalance } from '$lib/stores/balances';
 	import { contracts } from 'svelte-ethers-store';
-	import { attachContract } from '$lib/web3';
 
 	let amount = JSON.parse(sessionStorage.giveaway).giveaway_amount;
 	let error: boolean;
@@ -35,26 +34,33 @@
 	};
 </script>
 
-<div class="flex flex-col gap-2">
-	<div>
-		<p class="block mb-2 text-sm font-medium text-white">Please enter your giveaway amount in tokens.</p>
+<div class="flex flex-col gap-4 font-Inter">
+	<h1 class="header">How much are you giving away?</h1>
+	<h2 class="subheader">(In Tokens)</h2>
 
-		<input bind:value={amount} on:input={isAmountValid} type="number" class="text-white border-2 rounded-md px-2 py-1 bg-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-white w-full" />
-		<span class="text-gray-200 text-xs w-min">
-			{#if $giveaway.giveaway_type === 'ethereum' && $ethBalance}
-				max: {$ethBalance}
-			{:else if $contracts.PROJECT && $projectBalance}
-				max: {$projectBalance}
-			{/if}
-		</span>
+	<input bind:value={amount} on:input={isAmountValid} type="number" class="input-field" placeholder="Ex: 0.2 ETH" />
 
-		{#if error}
-			<p class="text-red-500 text-xs mt-1">Please enter a valid amount.</p>
+	<span class="text-brand-green-dark text-sm w-max">
+		{#if $giveaway.giveaway_type === 'ethereum' && $ethBalance}
+			max: {$ethBalance}
+		{:else if $contracts.PROJECT && $projectBalance}
+			max: {$projectBalance}
 		{/if}
-	</div>
+	</span>
 
-	<div class="flex justify-between text-white">
-		<button on:click={handleBack}>Back</button>
-		<button on:click={handleNext}>Continue</button>
+	{#if error}
+		<p class="invalid-error">Please enter a valid amount.</p>
+	{/if}
+
+	<div class="flex justify-center gap-4">
+		<button on:click={handleBack} class="btn">Back</button>
+		<button on:click={handleNext} class="btn">Continue</button>
 	</div>
 </div>
+
+<style>
+	input[type='number'] {
+		-moz-appearance: textfield;
+		appearance: textfield;
+	}
+</style>

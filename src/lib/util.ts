@@ -1,8 +1,10 @@
 import papa from 'papaparse';
+import { giveaway } from '$lib/stores/giveaway';
+import { get } from 'svelte/store';
 
 export const processFile = (files) => {
 	return new Promise((resolve, reject) => {
-		papa.parse(files[0], {
+		papa.parse(files, {
 			delimiter: '', // auto-detect
 			newline: '', // auto-detect
 			quoteChar: '"',

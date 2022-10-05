@@ -37,19 +37,17 @@
 	};
 </script>
 
-<div class="flex flex-col gap-2">
-	<div class="flex flex-col">
-		<p class="block mb-2 text-sm font-medium text-white">Please enter your project contract address.</p>
+<div class="flex flex-col gap-4 font-Inter">
+	<h1 class="header">Enter the contract address</h1>
 
-		<input bind:value={address} on:input={isAddressValid} type="text" class="text-white border-2 rounded-md px-2 py-1 bg-neutral-900 focus:outline-none focus:border-neutral-900 focus:ring-white w-full" />
+	<input bind:value={address} on:input={isAddressValid} type="text" placeholder="Ex: 0x46A7262a2198300fD8F75Fcc66040f05a034445D" class="input-field" />
 
-		{#if error}
-			<p class="text-red-500 text-xs mt-1">Please enter a valid ethereum address.</p>
-		{/if}
-	</div>
+	{#if error}
+		<p class="invalid-error">Please enter a valid ethereum address.</p>
+	{/if}
 
-	<div class="flex justify-between text-white">
-		<button on:click={handleBack}>Back</button>
-		<button on:click={handleNext}>Continue</button>
+	<div class="flex justify-center gap-4">
+		<button on:click={handleBack} class="btn">Back</button>
+		<button on:click={handleNext} class="btn">Continue</button>
 	</div>
 </div>

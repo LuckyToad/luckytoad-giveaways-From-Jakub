@@ -1,12 +1,18 @@
 <script>
 	import '../app.postcss';
 	import Navbar from '$lib/components/Navbar.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 </script>
 
-<Navbar />
-<slot />
+<div class="h-screen flex flex-col">
+	<Navbar />
+	<slot />
+	<Footer />
+</div>
 
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 	:root {
 		/* CUSTOMIZE THE COLOR  PALLETTE */
 		--onboard-white: white;
