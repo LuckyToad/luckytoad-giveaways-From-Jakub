@@ -13,13 +13,13 @@ const findWinner = async () => {
 	const random = Math.floor(Math.random() * giveawayStore.participants.length);
 	const winner = participants[random];
 
-	console.log(typeof winner, winner);
-
 	giveaway.update((giveaway) => ({
 		...giveaway,
 		winner,
 		round: giveaway.round + 1
 	}));
+
+	console.log(get(giveaway));
 
 	return winner;
 };
