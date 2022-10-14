@@ -20,9 +20,9 @@
 
 	<div class="flex flex-col justify-center items-center gap-4 z-50 absolute">
 		<h1 class="font-Inter text-3xl md:text-4xl text-brand-green-light font-black text-center">Prize: {winner.amount} {$giveaway.currency}</h1>
-		<div>
+		<div class="w-full">
 			<h1 class="header">Lucky Winner #{index + 1} is...</h1>
-			<h2 class="subheader">{winner.wallet}</h2>
+			<h2 class="subheader text-sm">{winner.wallet}</h2>
 		</div>
 
 		<div class="flex gap-2">

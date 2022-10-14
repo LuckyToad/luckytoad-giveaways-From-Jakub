@@ -27,7 +27,7 @@
 			{#each $giveaway.winners as { wallet, hash }, index}
 				<div class="flex flex-col">
 					<h3 class="text-brand-green-dark font-bold text-xl text-center">Lucky Winner #{index + 1}</h3>
-					{wallet}
+					<p class="text-sm">{wallet}</p>
 					<a href={hash} class="text-brand-green-dark text-base font-bold text-center underline underline-offset-4 decoration-brand-green-light decoration-2">Transation Hash</a>
 				</div>
 			{/each}

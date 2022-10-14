@@ -59,7 +59,7 @@
 
 	<p class="font-normal text-xs text-brand-green-dark">Accepted file types include: .CSV, .sheet, .excel</p>
 
-	<div class="flex justify-center gap-4">
+	<div class="flex justify-center gap-4 w-full">
 		<button on:click={handleBack} class="btn-outline">Back</button>
 		{#if input && files?.[0]}
 			<button on:click={handleNext} class="btn">Find {$giveaway.no_winners > 1 ? 'winners' : 'winner'}</button>

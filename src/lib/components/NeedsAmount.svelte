@@ -37,7 +37,7 @@
 <div class="flex flex-col gap-4 font-Inter">
 	<h1 class="header">How much are you giving away?</h1>
 
-	<input bind:value={amount} on:input={isAmountValid} type="number" class="input-field" placeholder="Ex: 0.2 {$giveaway.currency ? $giveaway.currency : 'ETH'}" />
+	<input bind:value={amount} on:input={isAmountValid} type="number" class="input-field" placeholder="Ex: 0.2 {$giveaway.currency}" />
 
 	<p class="text-brand-green-dark text-sm text-center">
 		{#if $giveaway.type === 'ethereum' && $ethBalance}
@@ -51,7 +51,7 @@
 		<p class="invalid-error">Please enter a valid amount.</p>
 	{/if}
 
-	<div class="flex justify-center gap-4">
+	<div class="flex justify-center gap-4 w-full">
 		<button on:click={handleBack} class="btn-outline">Back</button>
 		<button on:click={handleNext} class="btn">Continue</button>
 	</div>
