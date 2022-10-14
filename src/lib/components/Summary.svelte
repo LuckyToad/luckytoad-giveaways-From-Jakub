@@ -20,7 +20,7 @@
 	<div class="flex flex-col justify-center items-center gap-4 z-50 absolute">
 		<div>
 			<h1 class="header">You gave away a total of <span class="text-brand-green-light">{$giveaway.amount} {$giveaway.currency}</span> to <span class="text-brand-green-light">{$giveaway.no_winners} {$giveaway.winners.length > 1 ? 'winners' : 'winner'}</span>.</h1>
-			<h2 class="subheader font-medium">Each winner got {($giveaway.amount / $giveaway.winners.length).toFixed(2)} {$giveaway.currency}.</h2>
+			<h2 class="subheader font-medium">Each winner got {($giveaway.amount / $giveaway.winners.length).toFixed(2)} {$giveaway.currency}</h2>
 		</div>
 
 		<div class="flex flex-col gap-6 items-center">
