@@ -17,20 +17,29 @@
 </script>
 
 <div class="flex justify-center items-center font-Inter">
-	<div class="flex flex-col justify-center items-center gap-4 z-50 absolute">
+	<div class="flex flex-col justify-center items-center gap-8">
 		<div>
-			<h1 class="header">You gave away a total of <span class="text-brand-green-light">{$giveaway.amount} {$giveaway.currency}</span> to <span class="text-brand-green-light">{$giveaway.no_winners} {$giveaway.winners.length > 1 ? 'winners' : 'winner'}</span>.</h1>
+			<h1 class="header">You gave away a total of <span class="text-brand-green-light">{$giveaway.amount} {$giveaway.currency}</span> to <span class="text-brand-green-light">{$giveaway.no_winners} {$giveaway.winners.length > 1 ? 'winners' : 'winner'}</span>!</h1>
 			<h2 class="subheader font-medium">Each winner got {($giveaway.amount / $giveaway.winners.length).toFixed(2)} {$giveaway.currency}</h2>
 		</div>
-
 		<div class="flex flex-col gap-6 items-center">
 			{#each $giveaway.winners as { wallet, hash }, index}
-				<div class="flex flex-col">
+				<!-- <div class="flex flex-col">
 					<h3 class="text-brand-green-dark font-bold text-xl text-center">Lucky Winner #{index + 1}</h3>
 					<p class="text-sm">{wallet}</p>
 					<a href={hash} class="text-brand-green-dark text-base font-bold text-center underline underline-offset-4 decoration-brand-green-light decoration-2">Transation Hash</a>
+				</div> -->
+				<div class="flex items-center gap-2">
+					<h3 class="hidden md:flex text-brand-green-dark font-bold text-xl text-center">Winner #{index + 1}</h3>
+					<h3 class="md:hidden text-brand-green-dark font-bold text-xl text-center">#{index + 1}</h3>
+
+					<p class="text-sm font-semibold md:hidden">{wallet.slice(0, 5)}…{wallet.slice(wallet.length - 10, wallet.length)}</p>
+					<p class="text-sm font-semibold hidden md:flex">{wallet}</p>
+
+					<a href={hash} class="text-brand-green-dark text-base font-bold text-center underline underline-offset-4 decoration-brand-green-light decoration-2">Proof</a>
 				</div>
 			{/each}
+
 			<button class="btn" on:click={startOver}>Give Away More!</button>
 		</div>
 	</div>
