@@ -3,17 +3,19 @@
 	import Start from '$lib/components/Start.svelte';
 	import NeedsGiveawayType from '$lib/components/NeedsGiveawayType.svelte';
 	import NeedsContractAddress from '$lib/components/NeedsContractAddress.svelte';
+	import NeedsWinners from '$lib/components/NeedsWinners.svelte';
 	import NeedsAmount from '$lib/components/NeedsAmount.svelte';
 	import NeedsSpreadsheet from '$lib/components/NeedsSpreadsheet.svelte';
-	import FindingWinner from '$lib/components/FindingWinner.svelte';
-	import Winner from '$lib/components/Winner.svelte';
+	import FindingWinners from '$lib/components/FindingWinner.svelte';
+	import Winners from '$lib/components/Winners.svelte';
+	import Summary from '$lib/components/Summary.svelte';
 	import { connectionError } from '$lib/stores/connectionError';
 	import { contracts } from 'svelte-ethers-store';
 	import { giveaway } from '$lib/stores/giveaway';
 	import { attachContract } from '$lib/web3';
 
 	// reattach contract on refresh (if doesn't exist in contracts store but does in giveaway store)
-	if (!$contracts.PROJECT && $giveaway.project_contract_address) attachContract('PROJECT', $giveaway.project_contract_address);
+	if (!$contracts.PROJECT && $giveaway.contract_address) attachContract('PROJECT', $giveaway.contract_address);
 </script>
 
 {#if $connectionError && $state !== 'start'}
@@ -27,14 +29,18 @@
 			<NeedsGiveawayType />
 		{:else if $state == 'needs-contract-address'}
 			<NeedsContractAddress />
+		{:else if $state == 'needs-winners'}
+			<NeedsWinners />
 		{:else if $state == 'needs-amount'}
 			<NeedsAmount />
 		{:else if $state == 'needs-spreadsheet'}
 			<NeedsSpreadsheet />
-		{:else if $state == 'finding-winner'}
-			<FindingWinner />
-		{:else if $state == 'winner'}
-			<Winner />
+		{:else if $state == 'finding-winners'}
+			<FindingWinners />
+		{:else if $state == 'winners'}
+			<Winners />
+		{:else if $state == 'summary'}
+			<Summary />
 		{/if}
 	</div>
 </main>

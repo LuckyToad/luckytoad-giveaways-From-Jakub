@@ -8,7 +8,7 @@
 
 {#if $state !== 'start'}
 	{#if !$connected}
-		<button id="connectButton" class="flex items-center justify-center gap-1 p-2 md:px-2 md:py-1 sm:justify-end md:border-2 md:border-brand-green-dark rounded-md bg-transparent w-max" on:click={connect}>
+		<button id="connectButton" class="flex items-center justify-center gap-1 p-2 md:px-2 md:py-1 sm:justify-end md:border md:border-brand-green-dark rounded-md bg-transparent w-max" on:click={connect}>
 			<iconify-icon icon="mingcute:wallet-3-line" height="29px" class="text-brand-green-dark" />
 
 			<div class="hidden md:flex md:flex-col md:items-start">
@@ -18,7 +18,7 @@
 		</button>
 	{:else}
 		<Menu class={'relative'}>
-			<MenuButton class={`flex items-center px-2 py-1 gap-1 sm:justify-end md:border-2 md:border-brand-green-dark rounded-md bg-transparent w-max`}>
+			<MenuButton class={`flex items-center px-2 py-1 gap-1 sm:justify-end md:border md:border-brand-green-dark rounded-md bg-transparent w-max`}>
 				<div class="hidden md:flex md:flex-col md:items-start">
 					<span class="text-green-600 text-[10px] font-bold leading-3">Connected</span>
 					<span class="text-brand-green-dark leading-4">

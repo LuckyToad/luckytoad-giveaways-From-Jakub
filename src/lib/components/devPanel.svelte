@@ -4,8 +4,8 @@
 </script>
 
 <div class="text-white">
-	<p>GIVEAWAY_TYPE: {$giveaway.giveaway_type}</p>
-	<p>PROJECT_CONTRACT_ADDRESS: {$giveaway.project_contract_address}</p>
-	<p>GIVEAWAY_AMOUNT: {$giveaway.giveaway_amount}</p>
+	<p>GIVEAWAY_TYPE: {$giveaway.type}</p>
+	<p>PROJECT_CONTRACT_ADDRESS: {$giveaway.contract_address}</p>
+	<p>giveaway_amount: {$giveaway.amount}</p>
 	<p>CONTRACT STORE: {Object.keys($contracts).length ? 'SET' : 'EMPTY'}</p>
 </div>

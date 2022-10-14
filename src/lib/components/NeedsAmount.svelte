@@ -4,7 +4,7 @@
 	import { ethBalance, projectBalance } from '$lib/stores/balances';
 	import { contracts } from 'svelte-ethers-store';
 
-	let amount = JSON.parse(sessionStorage.giveaway).giveaway_amount;
+	let amount = JSON.parse(sessionStorage.giveaway).amount == 0 ? '' : JSON.parse(sessionStorage.giveaway).amount;
 	let error: boolean;
 
 	const isAmountValid = (): boolean => {
@@ -14,21 +14,21 @@
 		if (!amount) error = true;
 		if (amount < 0) error = true;
 		if (typeof amount !== 'number') error = true;
-		if ($giveaway.giveaway_type === 'ethereum' && amount > $ethBalance) error = true;
-		if ($giveaway.giveaway_type === 'native-token' && amount > $projectBalance) error = true;
+		if ($giveaway.type === 'ethereum' && amount > $ethBalance) error = true;
+		if ($giveaway.type === 'native-token' && amount > $projectBalance) error = true;
 
 		return error ? (valid = !valid) : valid;
 	};
 
 	const handleBack = () => {
-		$giveaway.giveaway_amount = 0;
-
+		$giveaway.amount = 0;
+		if ($giveaway.type == 'ethereum') $giveaway.currency = '';
 		state.back();
 	};
 
 	const handleNext = () => {
 		if (isAmountValid()) {
-			$giveaway.giveaway_amount = amount;
+			$giveaway.amount = amount;
 			state.next();
 		}
 	};
@@ -36,12 +36,11 @@
 
 <div class="flex flex-col gap-4 font-Inter">
 	<h1 class="header">How much are you giving away?</h1>
-	<h2 class="subheader">(In Tokens)</h2>
 
-	<input bind:value={amount} on:input={isAmountValid} type="number" class="input-field" placeholder="Ex: 0.2 ETH" />
+	<input bind:value={amount} on:input={isAmountValid} type="number" class="input-field" placeholder="Ex: 0.2 {$giveaway.currency ? $giveaway.currency : 'ETH'}" />
 
 	<p class="text-brand-green-dark text-sm text-center">
-		{#if $giveaway.giveaway_type === 'ethereum' && $ethBalance}
+		{#if $giveaway.type === 'ethereum' && $ethBalance}
 			max: {$ethBalance}
 		{:else if $contracts.PROJECT && $projectBalance}
 			max: {$projectBalance}
@@ -53,7 +52,7 @@
 	{/if}
 
 	<div class="flex justify-center gap-4">
-		<button on:click={handleBack} class="btn">Back</button>
+		<button on:click={handleBack} class="btn-outline">Back</button>
 		<button on:click={handleNext} class="btn">Continue</button>
 	</div>
 </div>

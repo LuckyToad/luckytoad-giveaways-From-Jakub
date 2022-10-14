@@ -1,6 +1,5 @@
 import papa from 'papaparse';
 import { giveaway } from '$lib/stores/giveaway';
-import { get } from 'svelte/store';
 
 export const processFile = (files) => {
 	return new Promise((resolve, reject) => {
@@ -26,19 +25,22 @@ export const processFile = (files) => {
 	});
 };
 
-export const findWinner = async () => {
-	const giveawayStore = get(giveaway);
-	const participants = giveawayStore.participants;
-	const random = Math.floor(Math.random() * giveawayStore.participants.length);
-	const winner = participants[random];
+export const findWinners = async () =>
+	giveaway.update(($giveaway) => {
+		// logic for determining winners...
+		let winners = new Set();
+		while (winners.size !== $giveaway.no_winners) {
+			const random = Math.floor(Math.random() * $giveaway.participants.length);
+			winners.add($giveaway.participants[random]);
+		}
 
-	giveaway.update((giveaway) => ({
-		...giveaway,
-		winner,
-		round: giveaway.round + 1
-	}));
+		winners.forEach((winner) => {
+			winner.hash = '';
+			winner.amount = ($giveaway.amount / $giveaway.no_winners).toFixed(2);
+		});
 
-	console.log(get(giveaway));
-
-	return winner;
-};
+		// update the giveaway...
+		$giveaway.winners = Array.from(winners);
+		$giveaway.round++;
+		return $giveaway;
+	});

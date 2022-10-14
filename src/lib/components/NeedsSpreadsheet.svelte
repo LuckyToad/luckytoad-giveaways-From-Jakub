@@ -14,8 +14,8 @@
 		// if (!amount) error = true;
 		// if (amount < 0) error = true;
 		// if (typeof amount !== 'number') error = true;
-		// if ($giveaway.giveaway_type === 'ethereum' && amount > $ethBalance) error = true;
-		// if ($giveaway.giveaway_type === 'native-token' && amount > $projectBalance) error = true;
+		// if ($giveaway.type === 'ethereum' && amount > $ethBalance) error = true;
+		// if ($giveaway.type === 'native-token' && amount > $projectBalance) error = true;
 
 		return error ? (valid = !valid) : valid;
 	};
@@ -38,8 +38,10 @@
 </script>
 
 <div class="flex flex-col gap-4 items-center font-Inter">
-	<h1 class="header">Upload your spreadsheet</h1>
-	<h2 class="subheader">Spreadsheet MUST include a list of participant wallets and number of entries</h2>
+	<div>
+		<h1 class="header">Upload your spreadsheet</h1>
+		<h2 class="subheader">Spreadsheet MUST include a list of participant wallets and number of entries</h2>
+	</div>
 
 	<label class:hidden={files} class="btn cursor-pointer">
 		<input bind:files bind:this={input} class="hidden" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
@@ -58,7 +60,9 @@
 	<p class="font-normal text-xs text-brand-green-dark">Accepted file types include: .CSV, .sheet, .excel</p>
 
 	<div class="flex justify-center gap-4">
-		<button on:click={handleBack} class="btn">Back</button>
-		<button on:click={handleNext} class="btn">Find winner</button>
+		<button on:click={handleBack} class="btn-outline">Back</button>
+		{#if input && files?.[0]}
+			<button on:click={handleNext} class="btn">Find {$giveaway.no_winners > 1 ? 'winners' : 'winner'}</button>
+		{/if}
 	</div>
 </div>

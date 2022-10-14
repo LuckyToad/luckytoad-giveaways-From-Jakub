@@ -2,8 +2,9 @@
 	import state from '$lib/stores/fsm';
 	import { giveaway } from '$lib/stores/giveaway';
 	import { validateAddress, attachContract } from '$lib/web3';
+	import { contracts } from 'svelte-ethers-store';
 
-	let address = JSON.parse(sessionStorage.giveaway).project_contract_address;
+	let address = JSON.parse(sessionStorage.giveaway).contract_address;
 	let error: boolean;
 
 	const isAddressValid = (): boolean => {
@@ -13,25 +14,21 @@
 		if (!address) error = true;
 		if (!validateAddress(address)) error = true;
 
-		// // if contract is valid, update giveaway store and attach contract
-		// if (!error) {
-		// 	$giveaway.project_contract_address = address;
-		// 	attachContract('PROJECT', address);
-		// }
-
 		return error ? (valid = !valid) : valid;
 	};
 
 	const handleBack = () => {
-		$giveaway.project_contract_address = '';
+		$giveaway.contract_address = '';
+		$giveaway.currency = '';
 
 		state.back();
 	};
 
-	const handleNext = () => {
+	const handleNext = async () => {
 		if (isAddressValid()) {
-			$giveaway.project_contract_address = address;
+			$giveaway.contract_address = address;
 			attachContract('PROJECT', address);
+			$giveaway.currency = await $contracts.PROJECT.symbol();
 			state.next();
 		}
 	};
@@ -47,7 +44,7 @@
 	{/if}
 
 	<div class="flex justify-center gap-4">
-		<button on:click={handleBack} class="btn">Back</button>
+		<button on:click={handleBack} class="btn-outline">Back</button>
 		<button on:click={handleNext} class="btn">Continue</button>
 	</div>
 </div>

@@ -3,7 +3,7 @@ import { connected } from 'svelte-ethers-store';
 import { giveaway } from './giveaway';
 import { get } from 'svelte/store';
 import { browser } from '$app/environment';
-import { findWinner } from '$lib/util';
+import { findWinners } from '$lib/util';
 
 let isConnected: boolean;
 connected.subscribe((val) => (isConnected = val));
@@ -12,7 +12,7 @@ const state = fsm('uninitialized', {
 	uninitialized: {
 		init(state) {
 			// check if received state is valid state and transition to it (or default)
-			return ['start', 'needs-giveaway-type', 'needs-contract-address', 'needs-amount', 'needs-spreadsheet', 'finding-winner', 'winner'].includes(state) ? state : 'start';
+			return ['start', 'needs-giveaway-type', 'needs-contract-address', 'needs-amount', 'needs-winners', 'needs-spreadsheet', 'finding-winner', 'winners', 'summary'].includes(state) ? state : 'start';
 		}
 	},
 	start: {
@@ -30,30 +30,37 @@ const state = fsm('uninitialized', {
 	'needs-amount': {
 		back() {
 			const currentState = get(giveaway);
-			return currentState.giveaway_type === 'ethereum' ? 'needs-giveaway-type' : 'needs-contract-address';
+			return currentState.type === 'ethereum' ? 'needs-giveaway-type' : 'needs-contract-address';
 		},
+		next: 'needs-winners'
+	},
+	'needs-winners': {
+		back: 'needs-amount',
 		next: 'needs-spreadsheet'
 	},
 	'needs-spreadsheet': {
-		back: 'needs-amount',
-		next: 'finding-winner'
+		back: 'needs-winners',
+		next: 'finding-winners'
 	},
-	'finding-winner': {
+	'finding-winners': {
 		_enter({ event }) {
 			if (['next', 'reroll'].includes(event)) {
-				findWinner().then(this.next);
+				findWinners().then(this.next);
 			} else {
 				// if you need to transition to another state, do something like this – calling
 				// `debounce` puts it on the event loop so it's not sync w/in this function
-				this.oops.debounce();
+				// this.oops.debounce();
 			}
 		},
-		next: 'winner',
-
-		oops: 'somewhereElse'
+		next: 'winners'
+		// oops: 'somewhereElse'
 	},
-	winner: {
-		reroll: 'finding-winner'
+	winners: {
+		reroll: 'finding-winners',
+		summary: 'summary'
+	},
+	summary: {
+		restart: 'needs-giveaway-type'
 	}
 });
 

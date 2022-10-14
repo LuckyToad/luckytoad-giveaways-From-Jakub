@@ -3,7 +3,8 @@
 	import { giveaway } from '$lib/stores/giveaway';
 
 	const handleNext = (type: string) => {
-		$giveaway.giveaway_type = type;
+		$giveaway.type = type;
+		if (type == 'ethereum') $giveaway.currency = 'ETH';
 
 		state.selectType(type);
 	};
