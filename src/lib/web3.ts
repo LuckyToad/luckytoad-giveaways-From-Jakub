@@ -18,7 +18,7 @@ let onboard = Onboard({
 			id: '0x1',
 			token: 'ETH',
 			label: 'Ethereum Mainnet',
-			rpcUrl: 'https://mainnet.infura.io/v3/023b54ddc8594fec8e9828372a3c373a'
+			rpcUrl: 'https://mainnet.infura.io/v3/79feb803928a4e14a5124eeee64d81ff'
 		}
 	],
 	appMetadata: {
