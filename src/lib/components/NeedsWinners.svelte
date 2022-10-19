@@ -51,4 +51,8 @@
 		-moz-appearance: textfield;
 		appearance: textfield;
 	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+	}
 </style>
