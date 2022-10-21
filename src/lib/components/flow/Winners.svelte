@@ -33,12 +33,13 @@
 
 		<button class="btn-outline md:hidden" use:copy={winner.wallet}>Copy Address</button>
 
-		<div class="flex flex-col md:flex-row gap-2 w-full mt-16 md:mt-0 items-center justify-center">
+		<div class="flex flex-col md:flex-row-reverse gap-2 w-full mt-16 md:mt-0 items-center justify-center">
 			{#if index != $giveaway.winners.length - 1}
 				<button class="btn" on:click={nextWinner}>Next Winner!</button>
 			{:else}
 				<button class="btn" on:click={state.summary}>Summary!</button>
 			{/if}
+
 			<a href={winner.hash} target="_blank" class="btn-outline">Verification</a>
 		</div>
 	</div>

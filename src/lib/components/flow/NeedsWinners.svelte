@@ -39,9 +39,9 @@
 		<p class="invalid-error">Please enter a valid number of winners.</p>
 	{/if}
 
-	<div class="flex justify-center gap-4">
-		<button on:click={handleBack} class="btn-outline">Back</button>
+	<div class="flex flex-col md:flex-row-reverse justify-center items-center gap-4 w-full">
 		<button on:click={handleNext} class="btn">Continue</button>
+		<button on:click={handleBack} class="btn-outline">Back</button>
 	</div>
 </div>
 
