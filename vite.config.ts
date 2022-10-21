@@ -3,6 +3,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import rollupNodePolyFill from 'rollup-plugin-polyfill-node';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+import svg from '@poppanator/sveltekit-svg';
 
 const MODE = process.env.NODE_ENV;
 const development = MODE === 'development';
@@ -11,6 +12,7 @@ const development = MODE === 'development';
 const config = {
 	plugins: [
 		sveltekit(),
+		svg(),
 		development &&
 			NodeGlobalsPolyfillPlugin({
 				process: true,

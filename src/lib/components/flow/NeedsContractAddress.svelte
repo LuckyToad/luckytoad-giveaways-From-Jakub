@@ -37,8 +37,7 @@
 <div class="flex flex-col gap-4 font-Inter">
 	<h1 class="header">Enter the contract address</h1>
 
-	<input bind:value={address} on:input={isAddressValid} type="text" placeholder="Ex: 0x46A7262a2198300fD8F75Fcc66040f05a034445D" class="input-field" />
-
+	<input bind:value={address} on:input={isAddressValid} type="text" placeholder="Ex: 0x46A7262a2198300fD8F75Fcc66040f05a034445D" class:input-field-valid={!error} class:input-field-invalid={error} />
 	{#if error}
 		<p class="invalid-error">Please enter a valid ethereum address.</p>
 	{/if}

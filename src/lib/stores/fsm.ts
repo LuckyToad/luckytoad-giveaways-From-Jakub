@@ -12,7 +12,7 @@ const state = fsm('uninitialized', {
 	uninitialized: {
 		init(state) {
 			// check if received state is valid state and transition to it (or default)
-			return ['start', 'needs-giveaway-type', 'needs-contract-address', 'needs-amount', 'needs-winners', 'needs-spreadsheet', 'finding-winner', 'winners', 'summary'].includes(state) ? state : 'start';
+			return ['start', 'needs-giveaway-type', 'needs-contract-address', 'needs-amount', 'needs-winners', 'needs-confirmation', 'needs-spreadsheet', 'finding-winner', 'winners', 'summary'].includes(state) ? state : 'start';
 		}
 	},
 	start: {
@@ -36,10 +36,14 @@ const state = fsm('uninitialized', {
 	},
 	'needs-winners': {
 		back: 'needs-amount',
+		next: 'needs-confirmation'
+	},
+	'needs-confirmation': {
+		back: 'needs-winners',
 		next: 'needs-spreadsheet'
 	},
 	'needs-spreadsheet': {
-		back: 'needs-winners',
+		back: 'needs-confirmation',
 		next: 'finding-winners'
 	},
 	'finding-winners': {
