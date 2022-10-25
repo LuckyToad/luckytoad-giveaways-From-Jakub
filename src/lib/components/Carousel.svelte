@@ -29,10 +29,3 @@
 		</div>
 	{/each}
 </div>
-
-<style>
-	#carousel::-webkit-scrollbar {
-		display: block;
-		background-color: #dad0a3;
-	}
-</style>
