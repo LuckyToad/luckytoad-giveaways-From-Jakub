@@ -18,14 +18,14 @@
 	};
 </script>
 
-<div class="flex justify-center items-center font-Inter">
-	<div class="flex flex-col justify-center items-center gap-8">
+<div class="flex justify-center items-center font-Inter w-full">
+	<div class="flex flex-col justify-center items-center gap-8 h-full">
 		<div>
 			<h1 class="header">You gave away a total of <br class="hidden md:flex" /> <span class="text-brand-green-light">{Number($giveaway.amount) ? ethers.utils.commify($giveaway.amount) : $giveaway.amount} {$giveaway.currency}</span> to <span class="text-brand-green-light">{$giveaway.no_winners} {$giveaway.winners.length > 1 ? 'winners' : 'winner'}</span>!</h1>
 			<h2 class="subheader font-medium">Each winner got {ethers.utils.commify(($giveaway.amount / $giveaway.winners.length).toFixed(2))} {$giveaway.currency}</h2>
 		</div>
 
-		<div class="flex flex-col gap-4 items-center">
+		<div class="flex flex-col gap-4 items-center overflow-y-auto">
 			{#each $giveaway.winners as { wallet, hash }, index}
 				<div class="flex flex-col justify-center gap-2">
 					<div>

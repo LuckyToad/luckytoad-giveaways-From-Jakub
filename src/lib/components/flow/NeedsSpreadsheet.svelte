@@ -37,7 +37,7 @@
 	};
 </script>
 
-<div class="flex flex-col gap-4 items-center font-Inter">
+<div class="flex flex-col gap-4 items-center font-Inter w-full">
 	<div>
 		<h1 class="header">Upload your spreadsheet</h1>
 		<h2 class="subheader">Spreadsheet MUST include a list of participant wallets and number of entries</h2>
@@ -49,20 +49,21 @@
 	</label>
 
 	{#if input && files?.[0]}
-		<div class="flex justify-between rounded-md border border-brand-lemon-dark min-w-max w-1/2 overflow-hidden">
-			<p class="text-brand-green-dark font-bold text-xl px-4 py-3">{files[0].name}</p>
+		<div class="flex justify-between rounded-md border border-brand-lemon-dark w-full md:w-1/2 overflow-hidden">
+			<p class="text-brand-green-dark font-bold text-xl px-4 py-3 truncate">{files[0].name}</p>
+
 			<button class="bg-brand-red flex items-center justify-center" on:click={clearInput}>
-				<iconify-icon icon="akar-icons:cross" height={'20px'} class="text-brand-white p-3" />
+				<iconify-icon icon="akar-icons:cross" height={'20px'} class="text-brand-white p-4" />
 			</button>
 		</div>
 	{/if}
 
 	<p class="font-normal text-xs text-brand-green-dark">Accepted file types include: .CSV, .sheet, .excel</p>
 
-	<div class="flex justify-center gap-4 w-full">
-		<button on:click={handleBack} class="btn-outline">Back</button>
+	<div class="flex flex-col md:flex-row-reverse justify-center items-center gap-4 w-full">
 		{#if input && files?.[0]}
 			<button on:click={handleNext} class="btn">Find {$giveaway.no_winners > 1 ? 'winners' : 'winner'}</button>
 		{/if}
+		<button on:click={handleBack} class="btn-outline">Back</button>
 	</div>
 </div>

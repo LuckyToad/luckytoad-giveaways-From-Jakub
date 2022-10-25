@@ -22,28 +22,27 @@
 {#if $connectionError && $state !== 'start'}
 	<p class="text-lg font-Inter font-bold text-red-700 text-center bg-brand-lemon-light">PLEASE RECONNECT YOUR WALLET TO CONTINUE</p>
 {/if}
-<main class="bg-brand-lemon-light h-full">
-	<div class="h-full max-w-7xl mx-auto p-2 sm:p-6 lg:p-8 flex justify-center items-center">
-		{#if $state == 'start'}
-			<Start />
-		{:else if $state == 'needs-giveaway-type'}
-			<NeedsGiveawayType />
-		{:else if $state == 'needs-contract-address'}
-			<NeedsContractAddress />
-		{:else if $state == 'needs-winners'}
-			<NeedsWinners />
-		{:else if $state == 'needs-amount'}
-			<NeedsAmount />
-		{:else if $state == 'needs-confirmation'}
-			<NeedsConfirmation />
-		{:else if $state == 'needs-spreadsheet'}
-			<NeedsSpreadsheet />
-		{:else if $state == 'finding-winners'}
-			<FindingWinners />
-		{:else if $state == 'winners'}
-			<Winners />
-		{:else if $state == 'summary'}
-			<Summary />
-		{/if}
-	</div>
+
+<main class="flex justify-center items-center p-8">
+	{#if $state == 'start'}
+		<Start />
+	{:else if $state == 'needs-giveaway-type'}
+		<NeedsGiveawayType />
+	{:else if $state == 'needs-contract-address'}
+		<NeedsContractAddress />
+	{:else if $state == 'needs-winners'}
+		<NeedsWinners />
+	{:else if $state == 'needs-amount'}
+		<NeedsAmount />
+	{:else if $state == 'needs-confirmation'}
+		<NeedsConfirmation />
+	{:else if $state == 'needs-spreadsheet'}
+		<NeedsSpreadsheet />
+	{:else if $state == 'finding-winners'}
+		<FindingWinners />
+	{:else if $state == 'winners'}
+		<Winners />
+	{:else if $state == 'summary'}
+		<Summary />
+	{/if}
 </main>

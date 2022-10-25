@@ -34,7 +34,7 @@
 	};
 </script>
 
-<div class="flex flex-col gap-4 font-Inter">
+<div class="flex flex-col gap-4 font-Inter w-full">
 	<h1 class="header">How much are you giving away?</h1>
 
 	<input bind:value={amount} on:input={isAmountValid} type="number" class:input-field-valid={!error} class:input-field-invalid={error} placeholder="Ex: 0.2 {$giveaway.currency}" />
