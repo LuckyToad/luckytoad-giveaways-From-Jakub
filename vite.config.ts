@@ -41,6 +41,7 @@ const config = {
 	optimizeDeps: {
 		include: ['papaparse'],
 		esbuildOptions: {
+			target: 'es2020',
 			define: {
 				global: 'globalThis'
 			},
@@ -60,6 +61,7 @@ const config = {
 		}
 	},
 	build: {
+		target: 'es2020',
 		rollupOptions: {
 			plugins: [
 				// Enable rollup polyfills plugin - used during production bundling
