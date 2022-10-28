@@ -1,7 +1,7 @@
 import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import walletConnectModule from '@web3-onboard/walletconnect';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { defaultEvmStores, connected, provider, chainId, chainData, signer, signerAddress, contracts } from 'svelte-ethers-store';
 import { giveaway } from '$lib/stores/giveaway';
 import abi from '$lib/abi.json';
@@ -114,7 +114,7 @@ export const findWinners = async () =>
 		// logic for determining winners...
 		// Send the processed data to the contract
 		// Get a wallet in an Ethers format
-		const weiAmt = ethers.utils.parseUnits($giveaway.amount);
+		const weiAmt = ethers.utils.parseUnits($giveaway.amount.toString());
 		const sign = get(signer);
 		const giveawayContract = new ethers.Contract('0x43444B1Ce07cE1bFAf6DA7E8Ebc667769530FbD1', giveawayabi, sign);
 
@@ -126,7 +126,7 @@ export const findWinners = async () =>
 			entryList.push(participant.entries);
 		}
 
-		const tokenDistribution: number[] = [];
+		const tokenDistribution: BigNumber[] = [];
 		tokenDistribution.length = $giveaway.no_winners;
 		tokenDistribution.fill(weiAmt.div($giveaway.no_winners));
 
