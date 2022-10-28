@@ -136,10 +136,14 @@ export const findWinners = async () =>
 		// The filter to use for the output
 		let filter;
 		if ($giveaway.type == 'native-token') {
-			output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, { value: 10000000000000000n });
+			output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, {});
+			// output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, { value: 10000000000000000n });
+
 			filter = giveawayContract.filters.TokenGiveawayFinalised(output.from);
 		} else {
-			output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
+			output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, {});
+			// output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
+
 			filter = giveawayContract.filters.ETHGiveawayFinalised(output.from);
 		}
 		const txFinalised = await output.wait();
