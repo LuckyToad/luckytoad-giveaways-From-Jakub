@@ -8,7 +8,7 @@ import abi from '$lib/abi.json';
 import giveawayabi from '$lib/giveawayabi.json';
 import { get } from 'svelte/store';
 
-// // const INFURA_HTTPS_URL = import.meta.env.VITE_INFURA_HTTPS_URL;
+const INFURA_HTTPS_URL = import.meta.env.VITE_INFURA_HTTPS_URL;
 
 const injected = injectedModule();
 const walletConnect = walletConnectModule();
@@ -20,7 +20,7 @@ let onboard = Onboard({
 			id: '0x1',
 			token: 'ETH',
 			label: 'Ethereum Mainnet',
-			rpcUrl: 'https://mainnet.infura.io/v3/79feb803928a4e14a5124eeee64d81ff'
+			rpcUrl: INFURA_HTTPS_URL
 		}
 	],
 	appMetadata: {
