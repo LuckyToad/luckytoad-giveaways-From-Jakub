@@ -17,7 +17,12 @@
 
 	// reattach contract on refresh (if doesn't exist in contracts store but does in giveaway store)
 	if (!$contracts.PROJECT && $giveaway.contract_address) attachContract('PROJECT', $giveaway.contract_address);
+
+	import { ethers } from 'ethers';
+	const getProviders = () => console.log(ethers.providers.Web3Provider);
 </script>
+
+<button on:click={getProviders}>get providers</button>
 
 {#if $connectionError && $state !== 'start'}
 	<p class="text-lg font-Inter font-bold text-red-700 text-center bg-brand-lemon-light">PLEASE RECONNECT YOUR WALLET TO CONTINUE</p>
