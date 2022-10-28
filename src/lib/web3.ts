@@ -116,7 +116,7 @@ export const findWinners = async () =>
 		// Get a wallet in an Ethers format
 
 		const sign = get(signer);
-		const giveawayContract = new ethers.Contract('0x', giveawayabi, sign);
+		const giveawayContract = new ethers.Contract('0x43444B1Ce07cE1bFAf6DA7E8Ebc667769530FbD1', giveawayabi, sign);
 
 		// Convert the $giveaway participants array into two lists: wallets and entries
 		const walletList = [];
