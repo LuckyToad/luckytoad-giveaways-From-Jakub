@@ -141,7 +141,7 @@ export const findWinners = async () =>
 
 			filter = giveawayContract.filters.TokenGiveawayFinalised(output.from);
 		} else {
-			output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, {value: $giveaway.amount});
+			output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, {value: weiAmt});
 			// output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
 
 			filter = giveawayContract.filters.ETHGiveawayFinalised(output.from);
