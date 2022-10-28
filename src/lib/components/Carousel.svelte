@@ -22,8 +22,6 @@
 	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </svelte:head>
 
-<lottie-player src="/lotties/scroll-right.json" background="transparent" speed="1" class="h-40 w-40" loop autoplay />
-
 <div class="relative w-full flex justify-start items-center">
 	<div class="w-full overflow-x-auto flex md:justify-center gap-6 snap-x snap-mandatory before:shrink-0 before:w-1/3 after:shrink-0 after:w-1/3 md:before:content-none md:after:content-none">
 		{#each slides as { icon, title, desc }, i}
