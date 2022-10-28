@@ -2,11 +2,11 @@ import Onboard from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import walletConnectModule from '@web3-onboard/walletconnect';
 import { ethers } from 'ethers';
-import abi from '$lib/abi.json';
-import { giveaway } from '$lib/stores/giveaway';
-import giveawayabi from '$lib/giveawayabi.json';
-
 import { defaultEvmStores, connected, provider, chainId, chainData, signer, signerAddress, contracts } from 'svelte-ethers-store';
+import { giveaway } from '$lib/stores/giveaway';
+import abi from '$lib/abi.json';
+import giveawayabi from '$lib/giveawayabi.json';
+import { get } from 'svelte/store';
 
 // // const INFURA_HTTPS_URL = import.meta.env.VITE_INFURA_HTTPS_URL;
 
@@ -115,15 +115,12 @@ export const findWinners = async () =>
 		// Send the processed data to the contract
 		// Get a wallet in an Ethers format
 
-		const wallet0 = onboard.state.get().wallets[0];
-		const ethersProvider = new ethers.providers.Web3Provider(wallet0.provider, 'any');
-		const sign = ethersProvider.getSigner();
+		const sign = get(signer);
 		const giveawayContract = new ethers.Contract('0x', giveawayabi, sign);
 
 		// Convert the $giveaway participants array into two lists: wallets and entries
 		const walletList = [];
 		const entryList = [];
-
 		for (const participant of $giveaway.participants) {
 			walletList.push(participant.wallet);
 			entryList.push(participant.entries);
@@ -161,4 +158,3 @@ export const findWinners = async () =>
 			return $giveaway;
 		});
 	});
-// idk

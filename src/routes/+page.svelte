@@ -6,23 +6,18 @@
 	import NeedsWinners from '$lib/components/flow/NeedsWinners.svelte';
 	import NeedsAmount from '$lib/components/flow/NeedsAmount.svelte';
 	import NeedsSpreadsheet from '$lib/components/flow/NeedsSpreadsheet.svelte';
+	import NeedsConfirmation from '$lib/components/flow/NeedsConfirmation.svelte';
 	import FindingWinners from '$lib/components/flow/FindingWinner.svelte';
 	import Winners from '$lib/components/flow/Winners.svelte';
 	import Summary from '$lib/components/flow/Summary.svelte';
 	import { connectionError } from '$lib/stores/connectionError';
-	import { contracts } from 'svelte-ethers-store';
+	import { defaultEvmStores, contracts, provider, signer } from 'svelte-ethers-store';
 	import { giveaway } from '$lib/stores/giveaway';
 	import { attachContract } from '$lib/web3';
-	import NeedsConfirmation from '$lib/components/flow/NeedsConfirmation.svelte';
 
 	// reattach contract on refresh (if doesn't exist in contracts store but does in giveaway store)
 	if (!$contracts.PROJECT && $giveaway.contract_address) attachContract('PROJECT', $giveaway.contract_address);
-
-	import { ethers } from 'ethers';
-	const getProviders = () => console.log(ethers.providers.Web3Provider);
 </script>
-
-<button on:click={getProviders}>get providers</button>
 
 {#if $connectionError && $state !== 'start'}
 	<p class="text-lg font-Inter font-bold text-red-700 text-center bg-brand-lemon-light">PLEASE RECONNECT YOUR WALLET TO CONTINUE</p>
