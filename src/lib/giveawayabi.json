@@ -1,0 +1,242 @@
+[
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "totalETH",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "address[]",
+                "name": "winners",
+                "type": "address[]"
+            }
+        ],
+        "name": "ETHGiveawayFinalised",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "totalETH",
+                "type": "uint256"
+            }
+        ],
+        "name": "ETHGiveawayLodged",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "winner",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "ETHWon",
+                "type": "uint256"
+            }
+        ],
+        "name": "ETHGiveawayWinner",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "totalTokens",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "address[]",
+                "name": "winners",
+                "type": "address[]"
+            }
+        ],
+        "name": "TokenGiveawayFinalised",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "totalTokens",
+                "type": "uint256"
+            }
+        ],
+        "name": "TokenGiveawayLodged",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "winner",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "tokensWon",
+                "type": "uint256"
+            }
+        ],
+        "name": "TokenGiveawayWinner",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address[]",
+                "name": "wallets",
+                "type": "address[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "entries",
+                "type": "uint256[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "distribution",
+                "type": "uint256[]"
+            }
+        ],
+        "name": "lodgeGiveawayETH",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address[]",
+                "name": "wallets",
+                "type": "address[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "entries",
+                "type": "uint256[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "tokenDistribution",
+                "type": "uint256[]"
+            },
+            {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            }
+        ],
+        "name": "lodgeGiveawayTokens",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address[]",
+                "name": "winners",
+                "type": "address[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "distributions",
+                "type": "uint256[]"
+            },
+            {
+                "internalType": "bytes",
+                "name": "signature",
+                "type": "bytes"
+            }
+        ],
+        "name": "processGiveawayETH",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address[]",
+                "name": "winners",
+                "type": "address[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "distributions",
+                "type": "uint256[]"
+            },
+            {
+                "internalType": "address",
+                "name": "token",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes",
+                "name": "signature",
+                "type": "bytes"
+            }
+        ],
+        "name": "processGiveawayTokens",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]
