@@ -3,7 +3,7 @@ import { connected } from 'svelte-ethers-store';
 import { giveaway } from './giveaway';
 import { get } from 'svelte/store';
 import { browser } from '$app/environment';
-import { findWinners } from '$lib/web3';
+import { findWinners } from '$lib/util';
 
 let isConnected: boolean;
 connected.subscribe((val) => (isConnected = val));
