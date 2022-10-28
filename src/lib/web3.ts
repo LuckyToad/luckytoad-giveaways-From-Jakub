@@ -114,7 +114,7 @@ export const findWinners = async () =>
 		// logic for determining winners...
 		// Send the processed data to the contract
 		// Get a wallet in an Ethers format
-
+		const weiAmt = ethers.utils.parseUnits($giveaway.amount);
 		const sign = get(signer);
 		const giveawayContract = new ethers.Contract('0x43444B1Ce07cE1bFAf6DA7E8Ebc667769530FbD1', giveawayabi, sign);
 
@@ -128,7 +128,7 @@ export const findWinners = async () =>
 
 		const tokenDistribution: number[] = [];
 		tokenDistribution.length = $giveaway.no_winners;
-		tokenDistribution.fill($giveaway.amount / $giveaway.no_winners);
+		tokenDistribution.fill(weiAmt.div($giveaway.no_winners));
 
 		// The resulting tx
 		let output;
@@ -141,7 +141,7 @@ export const findWinners = async () =>
 
 			filter = giveawayContract.filters.TokenGiveawayFinalised(output.from);
 		} else {
-			output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, {});
+			output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, {value: $giveaway.amount});
 			// output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
 
 			filter = giveawayContract.filters.ETHGiveawayFinalised(output.from);
