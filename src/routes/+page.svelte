@@ -17,6 +17,7 @@
 
 	// reattach contract on refresh (if doesn't exist in contracts store but does in giveaway store)
 	if (!$contracts.PROJECT && $giveaway.contract_address) attachContract('PROJECT', $giveaway.contract_address);
+	$: console.log($state);
 </script>
 
 {#if $connectionError && $state !== 'start'}

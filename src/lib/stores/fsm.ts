@@ -49,7 +49,8 @@ const state = fsm('uninitialized', {
 	'finding-winners': {
 		_enter({ event }) {
 			if (['next', 'reroll'].includes(event)) {
-				findWinners().then(this.next);
+				findWinners().then();
+				// findWinners().then(this.next);
 			} else {
 				// if you need to transition to another state, do something like this – calling
 				// `debounce` puts it on the event loop so it's not sync w/in this function

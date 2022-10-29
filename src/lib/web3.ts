@@ -109,56 +109,75 @@ export const validateAddress = (contractAddress: string) => {
 	return ethers.utils.isAddress(contractAddress);
 };
 
-export const findWinners = async () =>
-	giveaway.update(async ($giveaway) => {
-		// logic for determining winners...
-		// Send the processed data to the contract
-		// Get a wallet in an Ethers format
-		const weiAmt = ethers.utils.parseUnits($giveaway.amount.toString());
-		const sign = get(signer);
-		const giveawayContract = new ethers.Contract('0x43444B1Ce07cE1bFAf6DA7E8Ebc667769530FbD1', giveawayabi, sign);
+export const findWinners = async () => {
+	const giveawayObj = get(giveaway);
 
-		// Convert the $giveaway participants array into two lists: wallets and entries
-		const walletList = [];
-		const entryList = [];
-		for (const participant of $giveaway.participants) {
-			walletList.push(participant.wallet);
-			entryList.push(participant.entries);
+	// logic for determining winners...
+	const sign = get(signer);
+	const giveawayContract = new ethers.Contract('0x43444B1Ce07cE1bFAf6DA7E8Ebc667769530FbD1', giveawayabi, sign);
+
+	// Convert the $giveaway participants array into two lists: wallets and entries
+	const walletList = [];
+	const entryList = [];
+	for (const participant of giveawayObj.participants) {
+		walletList.push(participant.wallet);
+		entryList.push(participant.entries);
+	}
+
+	const weiAmt = ethers.utils.parseUnits(giveawayObj.amount.toString());
+
+	const tokenDistribution: BigNumber[] = [];
+	tokenDistribution.length = giveawayObj.no_winners;
+	tokenDistribution.fill(weiAmt.div(giveawayObj.no_winners));
+
+	// The resulting tx
+	let output;
+
+	// The filter to use for the output
+	let filter;
+	if (giveawayObj.type == 'native-token') {
+		output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, giveawayObj.contract_address, {});
+		// output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, { value: 10000000000000000n });
+
+		filter = giveawayContract.filters.TokenGiveawayFinalised(get(signerAddress));
+	} else {
+		output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: weiAmt });
+		console.log('awaiting output...');
+		// output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
+
+		filter = giveawayContract.filters.ETHGiveawayFinalised(get(signerAddress));
+		console.log('signer address', get(signerAddress));
+	}
+	console.log('OUTPUT', output);
+
+	const txFinalised = await output.wait();
+	console.log('TX FINALISED', txFinalised);
+
+	// Sign up to wait for the first event sent
+	const winners = new Set();
+	console.log('initial winners', winners);
+
+	giveawayContract.once(filter, (sender, amount, win, event) => {
+		console.log('triggeredOnce');
+
+		for (let i = 0; i < win.length; i++) {
+			const winnerSet = { wallet: win[i], hash: event.transactionHash, amount: amount[i] };
+			winners.add(winnerSet);
 		}
+	});
 
-		const tokenDistribution: BigNumber[] = [];
-		tokenDistribution.length = $giveaway.no_winners;
-		tokenDistribution.fill(weiAmt.div($giveaway.no_winners));
+	console.log('winners', winners);
 
-		// The resulting tx
-		let output;
-
-		// The filter to use for the output
-		let filter;
-		if ($giveaway.type == 'native-token') {
-			output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, {});
-			// output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, { value: 10000000000000000n });
-
-			filter = giveawayContract.filters.TokenGiveawayFinalised(output.from);
-		} else {
-			output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, {value: weiAmt});
-			// output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
-
-			filter = giveawayContract.filters.ETHGiveawayFinalised(output.from);
-		}
-		const txFinalised = await output.wait();
-
-		// Sign up to wait for the first event sent
-		const winners = new Set();
-		giveawayContract.once(filter, (sender, amount, win, event) => {
-			for (let i = 0; i < win.length; i++) {
-				const winnerSet = { wallet: win[i], hash: event.transactionHash, amount: amount[i] };
-				winners.add(winnerSet);
-			}
-
+	if (winners.size === giveawayObj.no_winners) {
+		giveaway.update(($giveaway) => {
 			// update the giveaway...
 			$giveaway.winners = Array.from(winners);
+			console.log('$giveaway.winners:', $giveaway.winners);
+
 			$giveaway.round++;
 			return $giveaway;
 		});
-	});
+	}
+
+	return winners;
+};
