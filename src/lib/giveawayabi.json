@@ -191,6 +191,11 @@
     {
         "inputs": [
             {
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
+            {
                 "internalType": "address[]",
                 "name": "winners",
                 "type": "address[]"
@@ -199,11 +204,6 @@
                 "internalType": "uint256[]",
                 "name": "distributions",
                 "type": "uint256[]"
-            },
-            {
-                "internalType": "bytes",
-                "name": "signature",
-                "type": "bytes"
             }
         ],
         "name": "processGiveawayETH",
@@ -213,6 +213,11 @@
     },
     {
         "inputs": [
+            {
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
             {
                 "internalType": "address[]",
                 "name": "winners",
@@ -227,11 +232,6 @@
                 "internalType": "address",
                 "name": "token",
                 "type": "address"
-            },
-            {
-                "internalType": "bytes",
-                "name": "signature",
-                "type": "bytes"
             }
         ],
         "name": "processGiveawayTokens",

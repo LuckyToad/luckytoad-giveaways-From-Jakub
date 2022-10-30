@@ -9,18 +9,25 @@ import giveawayabi from '$lib/giveawayabi.json';
 import { get } from 'svelte/store';
 
 const INFURA_HTTPS_URL = import.meta.env.VITE_INFURA_HTTPS_URL;
-
+const INFURA_GOERLI_URL = import.meta.env.VITE_INFURA_GOERLI;
 const injected = injectedModule();
 const walletConnect = walletConnectModule();
 
 let onboard = Onboard({
 	wallets: [injected, walletConnect],
 	chains: [
+		
 		{
 			id: '0x1',
 			token: 'ETH',
 			label: 'Ethereum Mainnet',
 			rpcUrl: INFURA_HTTPS_URL
+		},
+		{
+			id: '0x5',
+			token: 'goETH',
+			label: 'Ethereum Goerli',
+			rpcUrl: INFURA_GOERLI_URL
 		}
 	],
 	appMetadata: {
@@ -109,16 +116,23 @@ export const validateAddress = (contractAddress: string) => {
 	return ethers.utils.isAddress(contractAddress);
 };
 
+interface Winner {
+	wallet: string, 
+	hash: string, 
+	amount: BigNumber
+}
+
 export const findWinners = async () => {
+	await onboard.setChain({chainId: 0x5});
 	const giveawayObj = get(giveaway);
 
 	// logic for determining winners...
 	const sign = get(signer);
-	const giveawayContract = new ethers.Contract('0x43444B1Ce07cE1bFAf6DA7E8Ebc667769530FbD1', giveawayabi, sign);
-
+	const giveawayContract = new ethers.Contract('0xb10a83FEe3D6D8147B6748c6051540054ec01bA1', giveawayabi, sign);
+	console.log(sign);
 	// Convert the $giveaway participants array into two lists: wallets and entries
-	const walletList = [];
-	const entryList = [];
+	const walletList: string[] = [];
+	const entryList: number[] = [];
 	for (const participant of giveawayObj.participants) {
 		walletList.push(participant.wallet);
 		entryList.push(participant.entries);
@@ -152,20 +166,10 @@ export const findWinners = async () => {
 
 	const txFinalised = await output.wait();
 	console.log('TX FINALISED', txFinalised);
-
+	console.log("Waiting for winners...");
 	// Sign up to wait for the first event sent
-	const winners = new Set();
-	console.log('initial winners', winners);
-
-	giveawayContract.once(filter, (sender, amount, win, event) => {
-		console.log('triggeredOnce');
-
-		for (let i = 0; i < win.length; i++) {
-			const winnerSet = { wallet: win[i], hash: event.transactionHash, amount: amount[i] };
-			winners.add(winnerSet);
-		}
-	});
-
+	const winners = await waitForWinners(filter, giveawayContract);
+	console.log("Winners await finished.");
 	console.log('winners', winners);
 
 	if (winners.size === giveawayObj.no_winners) {
@@ -181,3 +185,22 @@ export const findWinners = async () => {
 
 	return winners;
 };
+
+const waitForWinners = (filter: ethers.EventFilter, contract: ethers.Contract): Promise<Set<Winner>> => {
+	return new Promise((resolve, reject) => {
+		const winners = new Set<Winner>();
+		console.log('initial winners', winners);
+
+		contract.once(filter, (sender, amount, win, event) => {
+			console.log('triggeredOnce');
+			console.log(event);
+
+			for (let i = 0; i < win.length; i++) {
+				const winnerSet: Winner = { wallet: win[i], hash: event.transactionHash, amount: amount[i] };
+				winners.add(winnerSet);
+			}
+			resolve(winners);
+		});
+	})
+
+}
