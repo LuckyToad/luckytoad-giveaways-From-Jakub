@@ -191,13 +191,13 @@ const waitForWinners = (filter: ethers.EventFilter, contract: ethers.Contract): 
 		const winners = new Set<Winner>();
 		console.log('initial winners', winners);
 
-		contract.once(filter, (sender, amount: BigNumber[], win, event) => {
+		contract.once(filter, (sender, amount: BigNumber, win, event) => {
 			console.log('triggeredOnce');
 			console.log(event);
 
 			for (let i = 0; i < win.length; i++) {
 				// Assume amount is a BigNumber
-				const amt = amount[i].div(win.length);
+				const amt = amount.div(win.length);
 				const winnerSet: Winner = { wallet: win[i], hash: event.transactionHash, amount: amt};
 				winners.add(winnerSet);
 			}
