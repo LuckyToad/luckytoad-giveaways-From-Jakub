@@ -127,7 +127,7 @@ export const findWinners = async () => {
 
 	// logic for determining winners...
 	const sign = get(signer);
-	const giveawayContract = new ethers.Contract('0xb10a83FEe3D6D8147B6748c6051540054ec01bA1', giveawayabi, sign);
+	const giveawayContract = new ethers.Contract('0x134640E09e67e5ed408Fe2892030Ac9780f31A83', giveawayabi, sign);
 	// Convert the $giveaway participants array into two lists: wallets and entries
 	const walletList: string[] = [];
 	const entryList: number[] = [];
