@@ -40,7 +40,7 @@
 				<button class="btn" on:click={state.summary}>Summary!</button>
 			{/if}
 
-			<a href={winner.hash} target="_blank" class="btn-outline">Verification</a>
+			<a href="https://etherscan.io/tx/{winner.hash}" target="_blank" class="btn-outline">Verification</a>
 		</div>
 	</div>
 </div>

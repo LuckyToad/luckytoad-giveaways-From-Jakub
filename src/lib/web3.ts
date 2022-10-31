@@ -9,14 +9,13 @@ import giveawayabi from '$lib/giveawayabi.json';
 import { get } from 'svelte/store';
 
 const INFURA_HTTPS_URL = import.meta.env.VITE_INFURA_HTTPS_URL;
-const INFURA_GOERLI_URL = import.meta.env.VITE_INFURA_GOERLI;
+const INFURA_GOERLI_URL = import.meta.env.VITE_INFURA_GOERLI_URL;
 const injected = injectedModule();
 const walletConnect = walletConnectModule();
 
 let onboard = Onboard({
 	wallets: [injected, walletConnect],
 	chains: [
-		
 		{
 			id: '0x1',
 			token: 'ETH',
@@ -117,19 +116,18 @@ export const validateAddress = (contractAddress: string) => {
 };
 
 interface Winner {
-	wallet: string, 
-	hash: string, 
-	amount: string
+	wallet: string;
+	hash: string;
+	amount: string;
 }
 
 export const findWinners = async () => {
-	await onboard.setChain({chainId: 0x5});
+	await onboard.setChain({ chainId: 0x5 });
 	const giveawayObj = get(giveaway);
 
 	// logic for determining winners...
 	const sign = get(signer);
 	const giveawayContract = new ethers.Contract('0xb10a83FEe3D6D8147B6748c6051540054ec01bA1', giveawayabi, sign);
-	console.log(sign);
 	// Convert the $giveaway participants array into two lists: wallets and entries
 	const walletList: string[] = [];
 	const entryList: number[] = [];
@@ -138,8 +136,8 @@ export const findWinners = async () => {
 		entryList.push(participant.entries);
 	}
 	let decimals;
-	if(giveawayObj.type == 'native-token') {
-		decimals = await (new ethers.Contract(giveawayObj.contract_address, abi, sign)).decimals();
+	if (giveawayObj.type == 'native-token') {
+		decimals = await new ethers.Contract(giveawayObj.contract_address, abi, sign).decimals();
 	} else {
 		decimals = 18;
 	}
@@ -156,33 +154,27 @@ export const findWinners = async () => {
 	let filter;
 	if (giveawayObj.type == 'native-token') {
 		output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, giveawayObj.contract_address, {});
-		// output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, { value: 10000000000000000n });
-		
 		filter = giveawayContract.filters.TokenGiveawayFinalised(get(signerAddress));
 	} else {
 		output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: weiAmt });
-		console.log('awaiting output...');
-		// output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
-		
 		filter = giveawayContract.filters.ETHGiveawayFinalised(get(signerAddress));
-		console.log('signer address', get(signerAddress));
 	}
-	console.log('OUTPUT', output);
 
+	console.time('tx');
 	const txFinalised = await output.wait();
-	console.log('TX FINALISED', txFinalised);
-	console.log("Waiting for winners...");
+	console.timeEnd('tx');
+
 	// Sign up to wait for the first event sent
+	console.time('winners');
 	const winners = await waitForWinners(filter, giveawayContract, decimals);
-	console.log("Winners await finished.");
+	console.timeEnd('winners');
+
 	console.log('winners', winners);
 
 	if (winners.size === giveawayObj.no_winners) {
 		giveaway.update(($giveaway) => {
 			// update the giveaway...
 			$giveaway.winners = Array.from(winners);
-			console.log('$giveaway.winners:', $giveaway.winners);
-
 			$giveaway.round++;
 			return $giveaway;
 		});
@@ -197,18 +189,13 @@ const waitForWinners = (filter: ethers.EventFilter, contract: ethers.Contract, d
 		console.log('initial winners', winners);
 
 		contract.once(filter, (sender, amount: BigNumber, win, event) => {
-			console.log('triggeredOnce');
-			console.log(event);
-
 			for (const element of win) {
 				// Assume amount is a BigNumber
-				
 				const amt = ethers.utils.formatUnits(amount.div(win.length), decimals);
-				const winnerSet: Winner = { wallet: element, hash: event.transactionHash, amount: amt};
+				const winnerSet: Winner = { wallet: element, hash: event.transactionHash, amount: amt };
 				winners.add(winnerSet);
 			}
 			resolve(winners);
 		});
-	})
-
-}
+	});
+};

@@ -22,7 +22,7 @@
 	<div class="flex flex-col justify-center items-center gap-8 h-full">
 		<div>
 			<h1 class="header">You gave away a total of <br class="hidden md:flex" /> <span class="text-brand-green-light">{Number($giveaway.amount) ? ethers.utils.commify($giveaway.amount) : $giveaway.amount} {$giveaway.currency}</span> to <span class="text-brand-green-light">{$giveaway.no_winners} {$giveaway.winners.length > 1 ? 'winners' : 'winner'}</span>!</h1>
-			<h2 class="subheader font-medium">Each winner got {ethers.utils.commify(($giveaway.amount / $giveaway.winners.length).toFixed(2))} {$giveaway.currency}</h2>
+			<h2 class="subheader font-medium">Each winner got {ethers.utils.commify(($giveaway.amount / $giveaway.winners.length).toFixed(8))} {$giveaway.currency}</h2>
 		</div>
 
 		<div class="flex flex-col gap-4 items-center overflow-y-auto">
@@ -39,7 +39,7 @@
 
 					<button class="btn-outline md:hidden" use:copy={wallet}>Copy Address</button>
 
-					<a href={hash} class="text-brand-green-dark text-base font-bold text-center underline underline-offset-4 decoration-brand-green-light decoration-2">Transaction Hash</a>
+					<a href="https://etherscan.io/tx/{hash}" class="text-brand-green-dark text-base font-bold text-center underline underline-offset-4 decoration-brand-green-light decoration-2">Transaction Hash</a>
 				</div>
 			{/each}
 
