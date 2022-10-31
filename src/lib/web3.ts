@@ -21,13 +21,13 @@ let onboard = Onboard({
 			token: 'ETH',
 			label: 'Ethereum Mainnet',
 			rpcUrl: INFURA_HTTPS_URL
-		},
-		{
-			id: '0x5',
-			token: 'goETH',
-			label: 'Ethereum Goerli',
-			rpcUrl: INFURA_GOERLI_URL
 		}
+		// {
+		// 	id: '0x5',
+		// 	token: 'goETH',
+		// 	label: 'Ethereum Goerli',
+		// 	rpcUrl: INFURA_GOERLI_URL
+		// }
 	],
 	appMetadata: {
 		name: 'Lucky Toad',
@@ -169,8 +169,6 @@ export const findWinners = async () => {
 	const winners = await waitForWinners(filter, giveawayContract, decimals);
 	console.timeEnd('winners');
 
-	console.log('winners', winners);
-
 	if (winners.size === giveawayObj.no_winners) {
 		giveaway.update(($giveaway) => {
 			// update the giveaway...
@@ -186,7 +184,6 @@ export const findWinners = async () => {
 const waitForWinners = (filter: ethers.EventFilter, contract: ethers.Contract, decimals: number): Promise<Set<Winner>> => {
 	return new Promise((resolve, reject) => {
 		const winners = new Set<Winner>();
-		console.log('initial winners', winners);
 
 		contract.once(filter, (sender, amount: BigNumber, win, event) => {
 			for (const element of win) {
