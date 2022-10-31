@@ -122,7 +122,6 @@ interface Winner {
 }
 
 export const findWinners = async () => {
-	await onboard.setChain({ chainId: 0x5 });
 	const giveawayObj = get(giveaway);
 
 	// logic for determining winners...
