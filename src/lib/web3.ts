@@ -119,7 +119,7 @@ export const validateAddress = (contractAddress: string) => {
 interface Winner {
 	wallet: string, 
 	hash: string, 
-	amount: BigNumber
+	amount: string
 }
 
 export const findWinners = async () => {
@@ -146,19 +146,19 @@ export const findWinners = async () => {
 
 	// The resulting tx
 	let output;
-
+	let decimals;
 	// The filter to use for the output
 	let filter;
 	if (giveawayObj.type == 'native-token') {
 		output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, giveawayObj.contract_address, {});
 		// output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, { value: 10000000000000000n });
-
+		decimals = await (new ethers.Contract(giveawayObj.contract_address, abi, sign)).decimals();
 		filter = giveawayContract.filters.TokenGiveawayFinalised(get(signerAddress));
 	} else {
 		output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: weiAmt });
 		console.log('awaiting output...');
 		// output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
-
+		decimals = 18;
 		filter = giveawayContract.filters.ETHGiveawayFinalised(get(signerAddress));
 		console.log('signer address', get(signerAddress));
 	}
@@ -168,7 +168,7 @@ export const findWinners = async () => {
 	console.log('TX FINALISED', txFinalised);
 	console.log("Waiting for winners...");
 	// Sign up to wait for the first event sent
-	const winners = await waitForWinners(filter, giveawayContract);
+	const winners = await waitForWinners(filter, giveawayContract, decimals);
 	console.log("Winners await finished.");
 	console.log('winners', winners);
 
@@ -186,7 +186,7 @@ export const findWinners = async () => {
 	return winners;
 };
 
-const waitForWinners = (filter: ethers.EventFilter, contract: ethers.Contract): Promise<Set<Winner>> => {
+const waitForWinners = (filter: ethers.EventFilter, contract: ethers.Contract, decimals: number): Promise<Set<Winner>> => {
 	return new Promise((resolve, reject) => {
 		const winners = new Set<Winner>();
 		console.log('initial winners', winners);
@@ -195,10 +195,11 @@ const waitForWinners = (filter: ethers.EventFilter, contract: ethers.Contract): 
 			console.log('triggeredOnce');
 			console.log(event);
 
-			for (let i = 0; i < win.length; i++) {
+			for (const element of win) {
 				// Assume amount is a BigNumber
-				const amt = amount.div(win.length);
-				const winnerSet: Winner = { wallet: win[i], hash: event.transactionHash, amount: amt};
+				
+				const amt = ethers.utils.formatUnits(amount.div(win.length), decimals);
+				const winnerSet: Winner = { wallet: element, hash: event.transactionHash, amount: amt};
 				winners.add(winnerSet);
 			}
 			resolve(winners);
