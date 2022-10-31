@@ -137,8 +137,13 @@ export const findWinners = async () => {
 		walletList.push(participant.wallet);
 		entryList.push(participant.entries);
 	}
-
-	const weiAmt = ethers.utils.parseUnits(giveawayObj.amount.toString());
+	let decimals;
+	if(giveawayObj.type == 'native-token') {
+		decimals = await (new ethers.Contract(giveawayObj.contract_address, abi, sign)).decimals();
+	} else {
+		decimals = 18;
+	}
+	const weiAmt = ethers.utils.parseUnits(giveawayObj.amount.toString(), decimals);
 
 	const tokenDistribution: BigNumber[] = [];
 	tokenDistribution.length = giveawayObj.no_winners;
@@ -146,19 +151,19 @@ export const findWinners = async () => {
 
 	// The resulting tx
 	let output;
-	let decimals;
+
 	// The filter to use for the output
 	let filter;
 	if (giveawayObj.type == 'native-token') {
 		output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, giveawayObj.contract_address, {});
 		// output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, $giveaway.contract_address, { value: 10000000000000000n });
-		decimals = await (new ethers.Contract(giveawayObj.contract_address, abi, sign)).decimals();
+		
 		filter = giveawayContract.filters.TokenGiveawayFinalised(get(signerAddress));
 	} else {
 		output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: weiAmt });
 		console.log('awaiting output...');
 		// output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: $giveaway.amount + 10000000000000000n });
-		decimals = 18;
+		
 		filter = giveawayContract.filters.ETHGiveawayFinalised(get(signerAddress));
 		console.log('signer address', get(signerAddress));
 	}
