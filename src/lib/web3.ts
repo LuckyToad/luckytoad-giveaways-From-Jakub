@@ -153,30 +153,24 @@ export const findWinners = async () => {
 	let filter: ethers.Filter;
 	let winnersPromise;
 	if (giveawayObj.type == 'native-token') {
-		let approval = await giveawayContract.approve("0x134640E09e67e5ed408Fe2892030Ac9780f31A83", weiAmt);
+		let approval = await giveawayContract.approve('0x134640E09e67e5ed408Fe2892030Ac9780f31A83', weiAmt);
 		await approval.wait();
 		filter = giveawayContract.filters.TokenGiveawayFinalised(get(signerAddress));
 		winnersPromise = waitForWinners(filter, giveawayContract, decimals);
 		output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, giveawayObj.contract_address, {});
-		
 	} else {
-		
 		filter = giveawayContract.filters.ETHGiveawayFinalised(get(signerAddress));
 		winnersPromise = waitForWinners(filter, giveawayContract, decimals);
 		output = await giveawayContract.lodgeGiveawayETH(walletList, entryList, tokenDistribution, { value: weiAmt });
 	}
 
-	console.time('tx');
-	let winners = await winnersPromise;
 	// Don't wait for the tx to actually be lodged to the network, just start the winner wait
+	console.time('winners');
+	let winners = await winnersPromise;
+	console.timeEnd('winners');
+	// console.time('tx');
 	//const txFinalised = await output.wait();
 	//console.timeEnd('tx');
-
-
-	// Sign up to wait for the first event sent
-	console.time('winners');
-	
-	console.timeEnd('winners');
 
 	if (winners.size === giveawayObj.no_winners) {
 		giveaway.update(($giveaway) => {

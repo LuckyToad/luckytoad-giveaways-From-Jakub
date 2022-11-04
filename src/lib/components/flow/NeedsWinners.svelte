@@ -11,8 +11,16 @@
 		let valid = true;
 
 		if (!winners) error = true;
-		if (winners < 0) error = true;
+		if (winners <= 0) error = true;
 		if (typeof winners !== 'number') error = true;
+
+		// if (winners !== undefined) {
+		// 	let input = parseInt(winners);
+
+		// 	if (!isNaN(input)) {
+		// 		if (input <= 0) error = true;
+		// 	} else error = true;
+		// } else error = true;
 
 		return error ? (valid = !valid) : valid;
 	};

@@ -12,13 +12,32 @@
 		let valid = true;
 
 		if (!amount) error = true;
-		if (amount < 0) error = true;
+		if (amount <= 0) error = true;
 		if (typeof amount !== 'number') error = true;
 		if ($giveaway.type === 'ethereum' && amount > $ethBalance) error = true;
 		if ($giveaway.type === 'native-token' && amount > $projectBalance) error = true;
 
 		return error ? (valid = !valid) : valid;
 	};
+
+	// const isAmountValid = (): boolean => {
+	// 	error = false;
+	// 	let valid = true;
+
+	// 	if (amount !== undefined) {
+	// 		let input = parseFloat(amount);
+	// 		let maxEth = parseFloat($ethBalance);
+	// 		let maxNative = parseFloat($projectBalance);
+
+	// 		if (!isNaN(input)) {
+	// 			if (input <= 0) error = true;
+	// 			if ($giveaway.type === 'ethereum' && input > maxEth) error = true;
+	// 			if ($giveaway.type === 'native-token' && input > maxNative) error = true;
+	// 		} else error = true;
+	// 	} else error = true;
+
+	// 	return error ? (valid = !valid) : valid;
+	// };
 
 	const handleBack = () => {
 		$giveaway.amount = 0;

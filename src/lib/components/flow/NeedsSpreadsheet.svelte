@@ -11,11 +11,7 @@
 		error = false;
 		let valid = true;
 
-		// if (!amount) error = true;
-		// if (amount < 0) error = true;
-		// if (typeof amount !== 'number') error = true;
-		// if ($giveaway.type === 'ethereum' && amount > $ethBalance) error = true;
-		// if ($giveaway.type === 'native-token' && amount > $projectBalance) error = true;
+		//
 
 		return error ? (valid = !valid) : valid;
 	};
