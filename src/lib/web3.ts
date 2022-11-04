@@ -150,7 +150,7 @@ export const findWinners = async () => {
 	let output;
 
 	// The filter to use for the output
-	let filter;
+	let filter: ethers.Filter;
 	if (giveawayObj.type == 'native-token') {
 		let approval = await giveawayContract.approve("0x134640E09e67e5ed408Fe2892030Ac9780f31A83", weiAmt);
 		await approval.wait();
@@ -162,8 +162,12 @@ export const findWinners = async () => {
 	}
 
 	console.time('tx');
+	// Don't wait for the tx to actually be lodged to the network, just start the winner wait
 	const txFinalised = await output.wait();
 	console.timeEnd('tx');
+	// Add filter.blocktag to block before latest
+
+	filter.fromBlock(-2);
 
 	// Sign up to wait for the first event sent
 	console.time('winners');
