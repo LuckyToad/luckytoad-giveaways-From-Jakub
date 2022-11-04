@@ -152,6 +152,8 @@ export const findWinners = async () => {
 	// The filter to use for the output
 	let filter;
 	if (giveawayObj.type == 'native-token') {
+		let approval = await giveawayContract.approve("0x134640E09e67e5ed408Fe2892030Ac9780f31A83", weiAmt);
+		await approval.wait();
 		output = await giveawayContract.lodgeGiveawayTokens(walletList, entryList, tokenDistribution, giveawayObj.contract_address, {});
 		filter = giveawayContract.filters.TokenGiveawayFinalised(get(signerAddress));
 	} else {
