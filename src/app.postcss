@@ -16,11 +16,14 @@
 	.subheader {
 		@apply text-base font-normal md:text-xl text-brand-green-dark font-Inter text-center;
 	}
+	.input-field {
+		@apply w-full md:w-1/2 text-base md:text-2xl text-center bg-brand-lemon-light border-0 border-b-2 px-2 py-1 focus:outline-none focus:ring-0 placeholder:opacity-50;
+	}
 	.input-field-valid {
-		@apply text-base md:text-2xl text-brand-green-light text-center bg-brand-lemon-light border-0 border-b-2 border-brand-green-light focus:border-brand-green-light px-2 py-1 focus:outline-none focus:ring-0 w-full placeholder:text-brand-green-light placeholder:opacity-50;
+		@apply text-brand-green-light border-brand-green-light focus:border-brand-green-light placeholder:text-brand-green-light;
 	}
 	.input-field-invalid {
-		@apply text-base md:text-2xl text-brand-red text-center bg-brand-lemon-light border-0 border-b-2 border-brand-red focus:border-brand-red px-2 py-1 focus:outline-none focus:ring-0 w-full placeholder:text-brand-green-dark placeholder:opacity-50;
+		@apply text-brand-red border-brand-red focus:border-brand-red placeholder:text-brand-green-dark;
 	}
 	.invalid-error {
 		@apply text-brand-red text-xs text-center mt-1;

@@ -39,10 +39,10 @@
 	};
 </script>
 
-<div class="flex flex-col gap-4 font-Inter w-full">
+<div class="flex flex-col items-center gap-4 font-Inter w-full">
 	<h1 class="header">How many winners will there be?</h1>
 
-	<input bind:value={winners} on:input={isWinnersValid} type="number" class:input-field-valid={!error} class:input-field-invalid={error} placeholder="Ex: 1, 2, 3, etc..." />
+	<input bind:value={winners} on:input={isWinnersValid} type="number" class="input-field" class:input-field-valid={!error} class:input-field-invalid={error} placeholder="Ex: 1, 2, 3, etc..." />
 	{#if error}
 		<p class="invalid-error">Please enter a valid number of winners.</p>
 	{/if}

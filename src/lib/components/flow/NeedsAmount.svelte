@@ -20,25 +20,6 @@
 		return error ? (valid = !valid) : valid;
 	};
 
-	// const isAmountValid = (): boolean => {
-	// 	error = false;
-	// 	let valid = true;
-
-	// 	if (amount !== undefined) {
-	// 		let input = parseFloat(amount);
-	// 		let maxEth = parseFloat($ethBalance);
-	// 		let maxNative = parseFloat($projectBalance);
-
-	// 		if (!isNaN(input)) {
-	// 			if (input <= 0) error = true;
-	// 			if ($giveaway.type === 'ethereum' && input > maxEth) error = true;
-	// 			if ($giveaway.type === 'native-token' && input > maxNative) error = true;
-	// 		} else error = true;
-	// 	} else error = true;
-
-	// 	return error ? (valid = !valid) : valid;
-	// };
-
 	const handleBack = () => {
 		$giveaway.amount = 0;
 		if ($giveaway.type == 'ethereum') $giveaway.currency = '';
@@ -53,10 +34,10 @@
 	};
 </script>
 
-<div class="flex flex-col gap-4 font-Inter w-full">
+<div class="flex flex-col items-center gap-4 font-Inter w-full">
 	<h1 class="header">How much are you giving away?</h1>
 
-	<input bind:value={amount} on:input={isAmountValid} type="number" class:input-field-valid={!error} class:input-field-invalid={error} placeholder="Ex: 0.2 {$giveaway.currency}" />
+	<input bind:value={amount} on:input={isAmountValid} type="number" class="input-field" class:input-field-valid={!error} class:input-field-invalid={error} placeholder="Ex: 0.2 {$giveaway.currency}" />
 	{#if error}
 		<p class="invalid-error">Please enter a valid amount.</p>
 	{/if}
