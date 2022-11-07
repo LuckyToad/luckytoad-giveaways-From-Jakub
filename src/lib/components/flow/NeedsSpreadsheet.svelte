@@ -11,8 +11,6 @@
 		error = false;
 		let valid = true;
 
-		//
-
 		return error ? (valid = !valid) : valid;
 	};
 
@@ -36,7 +34,7 @@
 <div class="flex flex-col gap-4 items-center font-Inter w-full">
 	<div>
 		<h1 class="header">Upload your spreadsheet</h1>
-		<h2 class="subheader">Spreadsheet MUST include a list of participant wallets and number of entries</h2>
+		<h2 class="subheader">Spreadsheet MUST include "wallet" | "entries"</h2>
 	</div>
 
 	<label class:hidden={files} class="btn cursor-pointer">
