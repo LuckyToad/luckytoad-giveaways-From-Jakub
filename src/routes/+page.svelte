@@ -5,13 +5,14 @@
 	import NeedsContractAddress from '$lib/components/flow/NeedsContractAddress.svelte';
 	import NeedsWinners from '$lib/components/flow/NeedsWinners.svelte';
 	import NeedsAmount from '$lib/components/flow/NeedsAmount.svelte';
+	import SpreadsheetFormatting from '$lib/components/flow/SpreadsheetFormatting.svelte';
 	import NeedsSpreadsheet from '$lib/components/flow/NeedsSpreadsheet.svelte';
 	import NeedsConfirmation from '$lib/components/flow/NeedsConfirmation.svelte';
 	import FindingWinners from '$lib/components/flow/FindingWinner.svelte';
 	import Winners from '$lib/components/flow/Winners.svelte';
 	import Summary from '$lib/components/flow/Summary.svelte';
 	import { connectionError } from '$lib/stores/connectionError';
-	import { defaultEvmStores, contracts, provider, signer } from 'svelte-ethers-store';
+	import { contracts } from 'svelte-ethers-store';
 	import { giveaway } from '$lib/stores/giveaway';
 	import { attachContract } from '$lib/web3';
 
@@ -40,6 +41,8 @@
 		<NeedsAmount />
 	{:else if $state == 'needs-confirmation'}
 		<NeedsConfirmation />
+	{:else if $state == 'spreadsheet-formatting'}
+		<SpreadsheetFormatting />
 	{:else if $state == 'needs-spreadsheet'}
 		<NeedsSpreadsheet />
 	{:else if $state == 'finding-winners'}
