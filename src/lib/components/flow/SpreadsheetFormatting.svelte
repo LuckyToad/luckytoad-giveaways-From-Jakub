@@ -18,8 +18,8 @@
 
 	<table class="table-auto w-max border-collapse border border-brand-green-dark text-brand-green-dark text-sm md:text-base">
 		<thead class="bg-brand-lemon-dark text-left">
-			<th class="px-4 py-2 border border-brand-green-dark">wallet</th>
-			<th class="px-4 py-2 border border-brand-green-dark">entries</th>
+			<th class="px-4 py-2 border border-brand-green-dark">Wallet</th>
+			<th class="px-4 py-2 border border-brand-green-dark">Entries</th>
 		</thead>
 		<tr>
 			<td class="px-4 py-2 border border-brand-green-dark">0×46A7262a2198300fD8F75Fcc66040f05a034445D</td>
@@ -37,7 +37,7 @@
 
 	<div class="flex flex-col gap-2 items-center">
 		<a href="https://docs.google.com/spreadsheets/d/1U-O9X4au-EJN2KFmo4QpCBJijiGFBs8Fw20APl_Jygc/edit?usp=sharing" target="_blank" class="text-brand-green-dark border-b-2 border-brand-green-light font-bold">Download Template</a>
-		<p class="text-xs text-brand-green-dark">Once the Goodle Sheet loads, go to File > Make a copy</p>
+		<p class="text-xs text-brand-green-dark">Once the Google Sheet loads, go to File > Make a copy</p>
 	</div>
 
 	<div class="flex flex-col md:flex-row-reverse justify-center items-center gap-4 w-full">
