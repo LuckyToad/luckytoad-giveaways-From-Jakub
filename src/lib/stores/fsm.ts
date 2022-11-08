@@ -47,7 +47,7 @@ const state = fsm('uninitialized', {
 		next: 'needs-spreadsheet'
 	},
 	'needs-spreadsheet': {
-		back: 'needs-confirmation',
+		back: 'spreadsheet-formatting',
 		next: 'finding-winners'
 	},
 	'finding-winners': {
