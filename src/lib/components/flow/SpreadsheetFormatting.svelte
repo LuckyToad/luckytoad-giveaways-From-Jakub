@@ -36,7 +36,7 @@
 	</table>
 
 	<div class="flex flex-col gap-2 items-center">
-		<a href="https://docs.google.com/spreadsheets/d/1U-O9X4au-EJN2KFmo4QpCBJijiGFBs8Fw20APl_Jygc/edit?usp=sharing" target="_blank" class="text-brand-green-dark border-b-2 border-brand-green-light font-bold">Download Template</a>
+		<a href="https://docs.google.com/spreadsheets/d/1Kru2ISZ9fVflaH6DQDBrl4E9fPLtSpa6LvgW0owSvew/edit?usp=share_link" target="_blank" class="text-brand-green-dark border-b-2 border-brand-green-light font-bold">Download Template</a>
 		<p class="text-xs text-brand-green-dark">Once the Google Sheet loads, go to File > Make a copy</p>
 	</div>
 
