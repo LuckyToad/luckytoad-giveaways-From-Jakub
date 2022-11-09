@@ -153,7 +153,7 @@ export const findWinners = async () => {
 	let filter: ethers.Filter;
 	let winnersPromise;
 	if (giveawayObj.type == 'native-token') {
-		let approval = await giveawayContract.approve('0x134640E09e67e5ed408Fe2892030Ac9780f31A83', weiAmt);
+		let approval = await new ethers.Contract(giveawayObj.contract_address, abi, sign).approve('0x134640E09e67e5ed408Fe2892030Ac9780f31A83', weiAmt);
 		await approval.wait();
 		filter = giveawayContract.filters.TokenGiveawayFinalised(get(signerAddress));
 		winnersPromise = waitForWinners(filter, giveawayContract, decimals);
