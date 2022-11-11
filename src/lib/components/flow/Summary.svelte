@@ -23,9 +23,10 @@
 		<div>
 			<h1 class="header">You gave away a total of <br class="hidden md:flex" /> <span class="text-brand-green-light">{Number($giveaway.amount) ? ethers.utils.commify($giveaway.amount) : $giveaway.amount} {$giveaway.currency}</span> to <span class="text-brand-green-light">{$giveaway.no_winners} {$giveaway.winners.length > 1 ? 'winners' : 'winner'}</span>!</h1>
 			<h2 class="subheader font-medium">Each winner got {ethers.utils.commify(($giveaway.amount / $giveaway.winners.length).toFixed(8))} {$giveaway.currency}</h2>
+			<a href="https://etherscan.io/tx/{$giveaway.winners[0].hash}" class="flex justify-center text-brand-green-dark text-base font-bold text-center underline underline-offset-4 decoration-brand-green-light decoration-2">Transaction Hash</a>
 		</div>
 
-		<div class="flex flex-col gap-4 items-center overflow-y-auto">
+		<div class="flex flex-col gap-4 items-center overflow-y-auto space-y-2">
 			{#each $giveaway.winners as { wallet, hash }, index}
 				<div class="flex flex-col justify-center gap-2">
 					<div>
@@ -38,8 +39,6 @@
 					</div>
 
 					<button class="btn-outline md:hidden" use:copy={wallet}>Copy Address</button>
-
-					<a href="https://etherscan.io/tx/{hash}" class="text-brand-green-dark text-base font-bold text-center underline underline-offset-4 decoration-brand-green-light decoration-2">Transaction Hash</a>
 				</div>
 			{/each}
 
