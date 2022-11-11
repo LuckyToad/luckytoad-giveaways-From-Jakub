@@ -148,7 +148,6 @@ export const findWinners = async () => {
 
 	// The resulting tx
 	let output;
-	console.log('OUTPUT:', output);
 
 	// The filter to use for the output
 	let filter: ethers.Filter;
@@ -166,12 +165,7 @@ export const findWinners = async () => {
 	}
 
 	// Don't wait for the tx to actually be lodged to the network, just start the winner wait
-	console.time('winners');
 	let winners = await winnersPromise;
-	console.timeEnd('winners');
-	// console.time('tx');
-	//const txFinalised = await output.wait();
-	//console.timeEnd('tx');
 
 	if (winners.size === giveawayObj.no_winners) {
 		giveaway.update(($giveaway) => {
