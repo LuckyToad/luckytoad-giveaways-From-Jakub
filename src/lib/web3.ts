@@ -148,13 +148,12 @@ export const findWinners = async () => {
 
 	// The resulting tx
 	let output;
-	console.log('OUTPUT:', output);
 
 	// The filter to use for the output
 	let filter: ethers.Filter;
 	let winnersPromise;
 	if (giveawayObj.type == 'native-token') {
-		let approval = await giveawayContract.approve('0x134640E09e67e5ed408Fe2892030Ac9780f31A83', weiAmt);
+		let approval = await new ethers.Contract(giveawayObj.contract_address, abi, sign).approve('0x134640E09e67e5ed408Fe2892030Ac9780f31A83', weiAmt);
 		await approval.wait();
 		filter = giveawayContract.filters.TokenGiveawayFinalised(get(signerAddress));
 		winnersPromise = waitForWinners(filter, giveawayContract, decimals);
@@ -166,12 +165,7 @@ export const findWinners = async () => {
 	}
 
 	// Don't wait for the tx to actually be lodged to the network, just start the winner wait
-	console.time('winners');
 	let winners = await winnersPromise;
-	console.timeEnd('winners');
-	// console.time('tx');
-	//const txFinalised = await output.wait();
-	//console.timeEnd('tx');
 
 	if (winners.size === giveawayObj.no_winners) {
 		giveaway.update(($giveaway) => {
