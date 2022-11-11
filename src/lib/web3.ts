@@ -8,8 +8,8 @@ import abi from '$lib/abi.json';
 import giveawayabi from '$lib/giveawayabi.json';
 import { get } from 'svelte/store';
 
-const INFURA_HTTPS_URL = import.meta.env.VITE_INFURA_HTTPS_URL;
-const INFURA_GOERLI_URL = import.meta.env.VITE_INFURA_GOERLI_URL;
+import { PUBLIC_ENVIRONMENT, PUBLIC_MAINNET_GIVEAWAY_CONTRACT, PUBLIC_GOERLI_GIVEAWAY_CONTRACT, PUBLIC_INFURA_HTTPS_URL, PUBLIC_INFURA_GOERLI_URL } from '$env/static/public';
+
 const injected = injectedModule();
 const walletConnect = walletConnectModule();
 
@@ -20,14 +20,14 @@ let onboard = Onboard({
 			id: '0x1',
 			token: 'ETH',
 			label: 'Ethereum Mainnet',
-			rpcUrl: INFURA_HTTPS_URL
+			rpcUrl: PUBLIC_INFURA_HTTPS_URL
+		},
+		{
+			id: '0x5',
+			token: 'goETH',
+			label: 'Ethereum Goerli',
+			rpcUrl: PUBLIC_INFURA_GOERLI_URL
 		}
-		// {
-		// 	id: '0x5',
-		// 	token: 'goETH',
-		// 	label: 'Ethereum Goerli',
-		// 	rpcUrl: INFURA_GOERLI_URL
-		// }
 	],
 	appMetadata: {
 		name: 'Lucky Toad',
@@ -126,7 +126,7 @@ export const findWinners = async () => {
 
 	// logic for determining winners...
 	const sign = get(signer);
-	const giveawayContract = new ethers.Contract('0x134640E09e67e5ed408Fe2892030Ac9780f31A83', giveawayabi, sign);
+	const giveawayContract = new ethers.Contract(PUBLIC_ENVIRONMENT === 'development' ? PUBLIC_GOERLI_GIVEAWAY_CONTRACT : PUBLIC_MAINNET_GIVEAWAY_CONTRACT, giveawayabi, sign);
 	// Convert the $giveaway participants array into two lists: wallets and entries
 	const walletList: string[] = [];
 	const entryList: number[] = [];
@@ -148,6 +148,7 @@ export const findWinners = async () => {
 
 	// The resulting tx
 	let output;
+	console.log('OUTPUT:', output);
 
 	// The filter to use for the output
 	let filter: ethers.Filter;
