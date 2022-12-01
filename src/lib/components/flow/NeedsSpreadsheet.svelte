@@ -27,6 +27,7 @@
 
 	const handleNext = async () => {
 		$giveaway.participants = await processFile(files[0]);
+
 		state.next();
 	};
 </script>
