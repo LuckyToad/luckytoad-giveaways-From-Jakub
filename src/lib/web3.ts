@@ -131,8 +131,8 @@ export const findWinners = async () => {
 	const walletList: string[] = [];
 	const entryList: number[] = [];
 	for (const participant of giveawayObj.participants) {
-		walletList.push(participant.Wallet);
-		entryList.push(participant.Entries);
+		walletList.push(participant.wallet);
+		entryList.push(participant.entries);
 	}
 	let decimals;
 	if (giveawayObj.type == 'native-token') {

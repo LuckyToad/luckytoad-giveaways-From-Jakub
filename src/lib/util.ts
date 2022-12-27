@@ -8,6 +8,9 @@ export const processFile = (files) => {
 			quoteChar: '"',
 			escapeChar: '"',
 			header: true,
+			transformHeader: function (header: string) {
+				return header.toLowerCase();
+			},
 			dynamicTyping: false,
 			preview: 0,
 			encoding: '',
